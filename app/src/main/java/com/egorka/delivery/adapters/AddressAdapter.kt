@@ -13,10 +13,15 @@ open class AddressAdapter(val myCallback: (address: Suggestion) -> Unit
 
     var suggestions = listOf<Suggestion>()
 
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var text: TextView = itemView.findViewById(R.id.addressLabel)
+        lateinit var address: Suggestion
+        lateinit var myCallback: (address: Suggestion) -> Unit
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recycler_address, parent, false))
     }
-
 
     override fun getItemCount(): Int {
         return suggestions.size
@@ -33,13 +38,4 @@ open class AddressAdapter(val myCallback: (address: Suggestion) -> Unit
 
     }
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var text: TextView = itemView.findViewById(R.id.addressLabel)
-        lateinit var address: Suggestion
-        lateinit var myCallback: (address: Suggestion) -> Unit
-
-//        init {
-//            text.setOnClickListener { myCallback(address) }
-//        }
-    }
 }
