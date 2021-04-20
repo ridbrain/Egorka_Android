@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_550sdp"
+        android:orientation="vertical"
+        android:id="@+id/mainBottomSheet"
+        android:elevation="@dimen/_10sdp"
+        android:background="@drawable/background_bottom_sheet"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <androidx.cardview.widget.CardView
+            style="@style/Handle"
+            android:layout_marginTop="@dimen/_5sdp"/>
+
+    <FrameLayout
+            android:id="@+id/frameLayoutEditText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_10sdp">
+
+        <EditText
+                style="@style/EditText"
+                android:id="@+id/pickupEditText"
+                android:hint="@string/pickupHintText"
+                android:paddingStart="@dimen/_30sdp"
+                android:paddingEnd="@dimen/_40sdp"
+                android:importantForAutofill="no"/>
+
+        <View
+                style="@style/Ring"
+                android:layout_gravity="center|left"
+                android:layout_marginStart="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+                tools:ignore="RtlHardcoded"/>
+
+        <ImageView
+                android:id="@+id/pickupFieldButton"
+                android:layout_width="@dimen/_40sdp"
+                android:padding="@dimen/_12sdp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_cross_hair"
+                android:layout_gravity="right|center"
+                tools:ignore="ContentDescription,RtlHardcoded"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/dropFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp">
+
+        <EditText
+                style="@style/EditText"
+                android:id="@+id/dropEditText"
+                android:hint="@string/dropHintText"
+                android:paddingStart="@dimen/_30sdp"
+                android:paddingEnd="@dimen/_40sdp"
+                android:importantForAutofill="no"/>
+
+        <View
+                style="@style/Ring"
+                android:layout_gravity="center|left"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:background="@drawable/background_round_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+                tools:ignore="RtlHardcoded"/>
+
+        <ImageView
+                android:id="@+id/dropFieldButton"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_12sdp"
+                android:src="@drawable/ic_remove"
+                android:layout_gravity="right|center"
+                android:visibility="gone"
+                tools:ignore="ContentDescription,RtlHardcoded"/>
+
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/suggestionsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_150sdp"
+            tools:listitem="@layout/recycler_address" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/deliveryTypeRecycler"
+            android:layout_width="match_parent"
+            android:paddingStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:orientation="horizontal"
+            android:clipToPadding="false"
+            android:visibility="gone"
+            tools:listitem="@layout/recycler_delivery_type"
+            tools:ignore="RtlSymmetry"/>
+
+</LinearLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        tools:context=".modules.mainActivity.MainActivity">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+            android:id="@+id/drawer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <fragment
+                    android:id="@+id/mapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context=".MapsActivity"
+                    android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+            <include layout="@layout/bottom_sheet"/>
+
+            <ImageView
+                    android:id="@+id/pin"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_pin_pickup"
+                    tools:ignore="ContentDescription,MissingConstraints" />
+
+            <ImageView
+                    android:id="@+id/menuButton"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/ic_menu"
+                    android:layout_marginTop="@dimen/_37sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    tools:ignore="ContentDescription"/>
+
+            <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:transitionName="@string/splash_transition"
+                    app:srcCompat="@drawable/ic_logo"
+                    android:layout_marginTop="@dimen/_35sdp"
+                    android:layout_marginStart="@dimen/_50sdp"
+                    tools:ignore="ContentDescription,MissingConstraints" />
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <com.google.android.material.navigation.NavigationView
+                android:id="@+id/menuView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:fitsSystemWindows="true"
+                android:background="@color/colorBackground"
+                app:headerLayout="@layout/menu_header"
+                app:menu="@menu/main_drawer" >
+
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

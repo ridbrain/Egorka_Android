@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:fitsSystemWindows="true"
+        tools:context=".modules.detailsActivity.DetailsActivity">
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_40sdp">
+
+        <LinearLayout
+                android:id="@+id/rootView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <TextView
+                    style="@style/Label"
+                    android:id="@+id/numView"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/background_round_red"
+                    android:gravity="center"
+                    android:textSize="@dimen/_17sdp"
+                    android:transitionName="@string/number_address_transition"/>
+
+            <TextView
+                    style="@style/GrayLabel"
+                    android:id="@+id/addressLabel"
+                    android:text="@string/orderPickup"/>
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp">
+
+                <EditText
+                        style="@style/EditText"
+                        android:id="@+id/addressField"
+                        android:padding="@dimen/_10sdp"
+                        android:hint="@string/enterAddress"
+                        tools:ignore="Autofill"/>
+
+                <ImageView
+                        android:id="@+id/addressFieldButton"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:padding="@dimen/_12sdp"
+                        android:src="@drawable/ic_remove"
+                        android:layout_gravity="right|center"
+                        android:visibility="gone"
+                        tools:ignore="ContentDescription,RtlHardcoded"/>
+
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/suggestionsRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:visibility="gone" />
+
+            <LinearLayout
+                    android:id="@+id/detailsView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        style="@style/GrayLabel"
+                        android:text="@string/notRequired" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        tools:ignore="RtlSymmetry">
+
+                    <EditText
+                            style="@style/EditText"
+                            android:id="@+id/entranceField"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:padding="@dimen/_10sdp"
+                            android:hint="@string/entrance"
+                            android:inputType="number"
+                            tools:ignore="Autofill,InefficientWeight"/>
+
+                    <EditText
+                            style="@style/EditText"
+                            android:id="@+id/floorField"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:padding="@dimen/_10sdp"
+                            android:hint="@string/floor"
+                            android:inputType="number"
+                            tools:ignore="Autofill"/>
+
+                    <EditText
+                            style="@style/EditText"
+                            android:id="@+id/roomField"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:padding="@dimen/_10sdp"
+                            android:hint="@string/office"
+                            android:inputType="number"
+                            tools:ignore="Autofill"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/labelTimeView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <TextView
+                            style="@style/GrayLabel"
+                            android:text="@string/timeStart" />
+
+                    <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:background="@drawable/background_edit_text">
+
+                        <TextView
+                                style="@style/Label"
+                                android:layout_gravity="center|left"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:text="@string/fastEgorka"
+                                tools:ignore="RtlHardcoded"/>
+
+                        <CheckBox
+                                android:id="@+id/needNowCheckBox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|right"
+                                android:indeterminate="true"
+                                android:indeterminateTintMode="src_atop"
+                                android:indeterminateTint="@color/colorAccent"
+                                tools:ignore="RtlHardcoded"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/timeView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:ignore="RtlSymmetry">
+
+                    <TextView
+                            style="@style/EditText"
+                            android:id="@+id/dateField"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:padding="@dimen/_10sdp"
+                            android:hint="@string/date"
+                            android:gravity="center|left"
+                            tools:ignore="Autofill,RtlHardcoded"/>
+
+                    <TextView
+                            style="@style/EditText"
+                            android:id="@+id/timeField"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:padding="@dimen/_10sdp"
+                            android:hint="@string/time"
+                            android:gravity="center|left"
+                            tools:ignore="Autofill,RtlHardcoded"/>
+
+                </LinearLayout>
+
+                <TextView
+                        style="@style/GrayLabel"
+                        android:id="@+id/contactsLabel"
+                        android:text="@string/orderPickup" />
+
+                <EditText
+                        style="@style/EditText"
+                        android:id="@+id/nameField"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:hint="@string/hintOfName"
+                        tools:ignore="Autofill"/>
+
+                <EditText
+                        style="@style/EditText"
+                        android:id="@+id/phoneField"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:hint="+7 (999) 888-77-66"
+                        android:inputType="phone"
+                        tools:ignore="Autofill,HardcodedText"/>
+
+                <TextView
+                        style="@style/GrayLabel"
+                        android:text="@string/instructionsForEgorka" />
+
+                <EditText
+                        style="@style/EditText"
+                        android:id="@+id/messageField"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:gravity="top|left"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:singleLine="false"
+                        tools:ignore="Autofill,LabelFor,RtlHardcoded"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout style="@style/MyActionBar">
+
+        <TextView
+                style="@style/MyActionTitle"
+                android:text="@string/detailsActivity"/>
+
+        <ImageView
+                style="@style/MyActionLeft"
+                android:id="@+id/backButton"
+                tools:ignore="ContentDescription"/>
+
+    </FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

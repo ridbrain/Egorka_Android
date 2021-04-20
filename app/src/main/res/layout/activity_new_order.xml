@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:fitsSystemWindows="true"
+        tools:context=".modules.newOrderActivity.NewOrderActivity">
+
+    <include layout="@layout/bottom_sheet_pay"/>
+
+    <FrameLayout style="@style/MyActionBar">
+
+        <TextView
+                style="@style/MyActionTitle"
+                android:text="@string/newOrder"/>
+
+        <TextView
+                style="@style/MyActionRightText"
+                android:id="@+id/cancelButton"
+                android:text="@string/cancel"/>
+
+    </FrameLayout>
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/_150sdp"
+                android:orientation="vertical">
+
+            <TextView
+                    style="@style/GrayLabel"
+                    android:text="@string/orderPickup"/>
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="0dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/pickupRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="true"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                    style="@style/ActionButton"
+                    android:id="@+id/addPickupButton"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:layout_gravity="right"
+                    android:text="@string/addPickupText"
+                    tools:ignore="RtlHardcoded"/>
+
+            <TextView
+                    style="@style/GrayLabel"
+                    android:text="@string/orderDrop"/>
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="0dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/dropRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="true" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                    style="@style/ActionButton"
+                    android:id="@+id/addDropButton"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:layout_gravity="right"
+                    android:text="@string/addDropText"
+                    tools:ignore="RtlHardcoded" />
+
+            <TextView
+                    style="@style/GrayLabel"
+                    android:text="@string/whatDelivery" />
+
+            <EditText
+                    style="@style/EditText"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:hint="@string/hintWhatDelivery"
+                    tools:ignore="Autofill"/>
+
+            <TextView
+                    style="@style/GrayLabel"
+                    android:text="@string/coinDelivery" />
+
+            <EditText
+                    style="@style/EditText"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:hint="@string/hintCoinDelivery"
+                    tools:ignore="Autofill"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
