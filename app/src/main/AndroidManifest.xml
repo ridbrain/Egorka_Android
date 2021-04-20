@@ -45,7 +45,7 @@
                   android:windowSoftInputMode="adjustResize|stateHidden"
                   tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
         <activity
-                android:name=".modules.currentOrderActivity.OrderStatusActivity"
+                android:name=".modules.currentOrderActivity.CurrentOrderActivity"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="adjustResize|stateHidden"
                 tools:ignore="InnerclassSeparator,LockedOrientationActivity" />

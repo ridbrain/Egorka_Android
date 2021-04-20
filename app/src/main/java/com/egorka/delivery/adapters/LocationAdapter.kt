@@ -24,15 +24,15 @@ class LocationAdapter(
     val locations: MutableList<NewOrderLocation>,
     val callback: (NewOrderLocation, Int, View) -> Unit): RecyclerView.Adapter<LocationAdapter.MyViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recycler_location, parent, false))
-    }
-
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var addressLabel: TextView = itemView.findViewById(R.id.addressLabel)
         var numLabel: TextView = itemView.findViewById(R.id.numTextView)
         var detailsLabel: TextView = itemView.findViewById(R.id.detailsLabel)
         var imgView: ImageView = itemView.findViewById(R.id.imgView)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recycler_location, parent, false))
     }
 
     override fun getItemCount(): Int {

@@ -8,7 +8,7 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
-class LocationHandler(private val context: Activity, val callBack: (Location) -> Unit) {
+class LocationHandler(private val context: Activity, private val callBack: (Location) -> Unit) {
 
     var code = 8899
     var location: Location? = null

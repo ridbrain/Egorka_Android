@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
 
     <group android:checkableBehavior="none">
         <item
-            android:id="@+id/id_account"
-            android:title="@string/menu_account"/>
+                android:id="@+id/currentOrder"
+                android:title="@string/currentOrder"/>
         <item
-            android:id="@+id/id_order"
-            android:title="@string/order"/>
-        <item
-            android:id="@+id/id_settings"
-            android:title="@string/menu_settings"/>
-        <item
-                android:id="@+id/id_about"
+                android:id="@+id/about"
                 android:title="@string/menu_about"/>
     </group>
 

@@ -16,15 +16,15 @@ class DeliveryType(var didDeselectItem: (Int) -> Unit) : RecyclerView.Adapter<De
 
     var types: List<TypeDelivery> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TypeDeliveryView {
-        return TypeDeliveryView(LayoutInflater.from(parent.context).inflate(R.layout.recycler_delivery_type, parent, false))
-    }
-
     class TypeDeliveryView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var cardView: CardView = itemView.findViewById(R.id.cardView)
         var txtName: TextView = itemView.findViewById(R.id.typeName)
         var txtPrice: TextView = itemView.findViewById(R.id.price)
         var image: ImageView = itemView.findViewById(R.id.typeDeliveryImage)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TypeDeliveryView {
+        return TypeDeliveryView(LayoutInflater.from(parent.context).inflate(R.layout.recycler_delivery_type, parent, false))
     }
 
     @SuppressLint("SetTextI18n")

@@ -8,6 +8,7 @@ class DataHandler(val context: Context) {
     private val UUID = "EgorkaUserUIID"
     private val SECURE = "EgorkaUserSecure"
     private val FIREBASE = "EgorkaUserFCM"
+    private val ERRORACTIVITY = "ErrorActivity"
 
     private val settings = context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
 
@@ -43,6 +44,16 @@ class DataHandler(val context: Context) {
 
     fun getUserFCM() : String? {
         return settings.getString(FIREBASE, null)
+    }
+
+    fun setErrorActivityState(open: Boolean) {
+        val editor = settings.edit()
+        editor.putBoolean(ERRORACTIVITY, open)
+        editor.apply()
+    }
+
+    fun getErrorActivityState() : Boolean {
+        return settings.getBoolean(ERRORACTIVITY, false)
     }
 
 }

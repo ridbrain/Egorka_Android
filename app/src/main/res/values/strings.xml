@@ -23,7 +23,7 @@
     <string name="menu_about">О приложении</string>
     <string name="close">Закрыть</string>
     <string name="open">Открыть</string>
-    <string name="order">Текущий заказ</string>
+    <string name="currentOrder">Текущий заказ</string>
     <string name="orderPickup">Отправитель</string>
     <string name="orderDrop">Получатель</string>
     <string name="addPickupText">Добавить отправителя</string>

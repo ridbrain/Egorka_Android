@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.egorka.delivery.R
 import com.egorka.delivery.entities.Suggestion
 
-open class AddressAdapter(val myCallback: (address: Suggestion) -> Unit
-) : RecyclerView.Adapter<AddressAdapter.MyViewHolder>() {
+open class AddressAdapter(val myCallback: (address: Suggestion) -> Unit) : RecyclerView.Adapter<AddressAdapter.MyViewHolder>() {
 
     var suggestions = listOf<Suggestion>()
 

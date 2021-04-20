@@ -50,6 +50,7 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
         presenter.onCreate()
 
         menuButton.setOnClickListener { drawer_layout.openDrawer(menuView) }
+        menuView.setNavigationItemSelectedListener { MainMenu(this, drawer_layout).pressButton(it.itemId); true }
 
         pickupEditText.addTextChangedListener(EditTextWatcher { presenter.textDidChange(it) })
         pickupEditText.setOnFocusChangeListener { _, isFocused -> if (isFocused) presenter.selectTextField() }

@@ -5,8 +5,12 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import com.egorka.delivery.R
+import com.egorka.delivery.handlers.DataHandler
+import com.egorka.delivery.modules.currentOrderActivity.CurrentOrderActivity
 import com.egorka.delivery.modules.detailsActivity.DetailsActivity
 import com.egorka.delivery.modules.errorActivity.ErrorActivity
 import com.egorka.delivery.modules.mainActivity.MainActivity
@@ -26,7 +30,11 @@ class GeneralRouter(val context: Activity) {
 
     fun openErrorActivity() {
 
-        context.startActivity(Intent(context, ErrorActivity::class.java))
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (!DataHandler(context).getErrorActivityState()) {
+                context.startActivity(Intent(context, ErrorActivity::class.java))
+            }
+        }, 500)
 
     }
 
@@ -58,6 +66,12 @@ class GeneralRouter(val context: Activity) {
     fun openNewLocationActivity() {
 
         context.startActivity(Intent(context, DetailsActivity::class.java))
+
+    }
+
+    fun openCurrentOrder() {
+
+        context.startActivity(Intent(context, CurrentOrderActivity::class.java))
 
     }
 

@@ -43,7 +43,8 @@ class SplashPresenter(private val view: SplashActivityInterface): BasePresenter,
 
     private fun openMainActivity() {
 
-        GeneralRouter(this.view.getContext()).openMainActivity(view.getLogo(), view.getTransitionName())
+        DataHandler(view.getContext()).setErrorActivityState(false)
+        GeneralRouter(view.getContext()).openMainActivity(view.getLogo(), view.getTransitionName())
 
     }
 
