@@ -7,11 +7,6 @@ import android.os.IBinder
 import com.egorka.delivery.entities.MainModel
 import com.egorka.delivery.entities.MainModelInterface
 
-interface BasePresenter {
-    var mainService: MainService?
-    fun onStart()
-}
-
 class MainService : Service() {
 
     lateinit var mainModel: MainModelInterface

@@ -17,7 +17,6 @@ class DeliveryType(var didDeselectItem: (Int) -> Unit) : RecyclerView.Adapter<De
     var types: List<TypeDelivery> = ArrayList()
 
     class TypeDeliveryView(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var cardView: CardView = itemView.findViewById(R.id.cardView)
         var txtName: TextView = itemView.findViewById(R.id.typeName)
         var txtPrice: TextView = itemView.findViewById(R.id.price)
         var image: ImageView = itemView.findViewById(R.id.typeDeliveryImage)
@@ -36,7 +35,7 @@ class DeliveryType(var didDeselectItem: (Int) -> Unit) : RecyclerView.Adapter<De
         holder.txtPrice.text = "${type.price} ₽"
         holder.image.setImageResource(type.image)
 
-        holder.cardView.setOnClickListener { didDeselectItem(type.type) }
+        holder.itemView.setOnClickListener { didDeselectItem(type.type) }
 
     }
 

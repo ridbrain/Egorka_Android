@@ -1,7 +1,5 @@
 package com.egorka.delivery.modules.newOrderActivity
 
-import android.content.Context
-import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -10,18 +8,10 @@ import com.egorka.delivery.entities.*
 import com.egorka.delivery.services.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
-class NewOrderPresenter(private val view: NewOrderActivityInterface): BasePresenter, NewOrderPresenterInterface {
+class NewOrderPresenter(private val view: NewOrderActivityInterface): NewOrderPresenterInterface {
 
-    override var mainService: MainService? = null
-    private var serviceConnection = ServiceConnect(this)
-
-    override fun onCreate() {
-        view.getContext().bindService(Intent(view.getContext(), MainService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
-    }
-
-    override fun onResume() {
-        onStart()
-    }
+    private var mainService: MainService? = null
+    private var keyboardHide = true
 
     override fun onStart() {
 
@@ -35,6 +25,10 @@ class NewOrderPresenter(private val view: NewOrderActivityInterface): BasePresen
 
         }
 
+    }
+
+    override fun onResume() {
+        ServiceConnect(view.getContext()) { mainService = it ; onStart() }
     }
 
     private fun updateLists(model: MainModelInterface) {
@@ -129,16 +123,34 @@ class NewOrderPresenter(private val view: NewOrderActivityInterface): BasePresen
 
     }
 
+    override fun openKeyboard() {
+        keyboardHide = false
+        view.hideBottomSheet()
+    }
+
+    override fun hideKeyboard() {
+
+        keyboardHide = true
+        view.getContext().hideKeyboard()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            view.setBottomSheetState(BottomState.Small)
+        }, 500)
+
+    }
+
     override fun bottomStateChanged(state: Int) {
-        when (state) {
-            BottomSheetBehavior.STATE_HIDDEN -> {
-                view.setBottomSheetState(BottomState.Small)
-            }
-            BottomSheetBehavior.STATE_EXPANDED -> {
-                view.setBottomSheetState(BottomState.Small)
-            }
-            BottomSheetBehavior.STATE_COLLAPSED -> {
-                view.setBottomSheetState(BottomState.Small)
+        if (keyboardHide) {
+            when (state) {
+                BottomSheetBehavior.STATE_HIDDEN -> {
+                    view.setBottomSheetState(BottomState.Small)
+                }
+                BottomSheetBehavior.STATE_EXPANDED -> {
+                    view.setBottomSheetState(BottomState.Small)
+                }
+                BottomSheetBehavior.STATE_COLLAPSED -> {
+                    view.setBottomSheetState(BottomState.Small)
+                }
             }
         }
     }

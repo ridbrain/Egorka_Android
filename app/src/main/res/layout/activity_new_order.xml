@@ -6,10 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground"
-        android:fitsSystemWindows="true"
         tools:context=".modules.newOrderActivity.NewOrderActivity">
-
-    <include layout="@layout/bottom_sheet_pay"/>
 
     <FrameLayout style="@style/MyActionBar">
 
@@ -30,6 +27,7 @@
             android:layout_height="match_parent">
 
         <LinearLayout
+                android:id="@+id/rootView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="@dimen/_150sdp"
@@ -99,6 +97,7 @@
 
             <EditText
                     style="@style/EditText"
+                    android:id="@+id/whatField"
                     android:layout_margin="@dimen/_10sdp"
                     android:padding="@dimen/_10sdp"
                     android:hint="@string/hintWhatDelivery"
@@ -110,6 +109,7 @@
 
             <EditText
                     style="@style/EditText"
+                    android:id="@+id/coinField"
                     android:layout_margin="@dimen/_10sdp"
                     android:padding="@dimen/_10sdp"
                     android:hint="@string/hintCoinDelivery"
@@ -118,5 +118,7 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/bottom_sheet_pay"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -41,7 +41,7 @@ interface DetailsPresenterInterface {
 
     val view: DetailsActivityInterface
 
-    fun onCreate()
+    fun onStart()
     fun onBackPressed()
     fun setQuickly(quickly: Boolean)
     fun pressDate()

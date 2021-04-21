@@ -41,7 +41,7 @@ interface MainPresenterInterface {
 
     var view: MainActivityInterface
 
-    fun onCreate()
+    fun onStart()
     fun onResume()
     fun onPause()
     fun onBackPressed()

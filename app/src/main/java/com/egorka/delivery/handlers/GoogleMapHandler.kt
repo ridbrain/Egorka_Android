@@ -3,10 +3,12 @@ package com.egorka.delivery.handlers
 import android.app.Activity
 import android.location.Geocoder
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.egorka.delivery.R
 import com.egorka.delivery.entities.Point
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.CameraUpdate
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.*
 import java.io.IOException
 
 class GoogleMapHandler(val context: Activity) {
@@ -107,6 +109,30 @@ class GoogleMapHandler(val context: Activity) {
         }
 
         return poly
+
+    }
+
+    fun getCameraPosition(points: List<LatLng>, padding: Int): CameraUpdate {
+
+        val builder = LatLngBounds.Builder()
+
+        points.forEach {
+            builder.include(it)
+        }
+
+        return CameraUpdateFactory.newLatLngBounds(builder.build(), padding)
+
+    }
+
+    fun getMarker(latLng: LatLng, icon: Int, size: Int): MarkerOptions {
+
+        val marker = MarkerOptions().position(latLng)
+
+        ContextCompat.getDrawable(context, icon)?.let {
+            marker.icon(BitmapDescriptorFactory.fromBitmap(it.toBitmap(size, size, null)))
+        }
+
+        return marker
 
     }
 

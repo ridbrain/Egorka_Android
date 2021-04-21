@@ -1,8 +1,6 @@
 package com.egorka.delivery.modules.detailsActivity
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat
@@ -13,16 +11,13 @@ import com.egorka.delivery.services.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DetailsPresenter(override val view: DetailsActivityInterface): BasePresenter, DetailsPresenterInterface {
+class DetailsPresenter(override val view: DetailsActivityInterface): DetailsPresenterInterface {
 
-    override var mainService: MainService? = null
-    private var serviceConnection = ServiceConnect(this)
+    private var mainService: MainService? = null
     private var calendar = Calendar.getInstance().gmt3()
     private var defaultDate = Calendar.getInstance().gmt3()
 
-    override fun onCreate() {
-        view.getContext().bindService(Intent(view.getContext().applicationContext, MainService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
-    }
+    init { ServiceConnect(view.getContext()) { mainService = it ; onStart() } }
 
     override fun onStart() {
 

@@ -4,11 +4,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_135sdp"
-        android:orientation="vertical"
-        android:elevation="@dimen/_10sdp"
-        android:background="@drawable/background_bottom_sheet_white"
+        android:layout_height="@dimen/_125sdp"
         android:id="@+id/bottomSheetPay"
+        android:elevation="@dimen/_10sdp"
+        android:orientation="vertical"
+        android:background="@drawable/background_bottom_sheet_white"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
     <androidx.cardview.widget.CardView

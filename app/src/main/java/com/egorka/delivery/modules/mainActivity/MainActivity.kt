@@ -7,7 +7,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +17,9 @@ import com.egorka.delivery.adapters.TypeDelivery
 import com.egorka.delivery.delegates.EditTextWatcher
 import com.egorka.delivery.entities.Suggestion
 import com.egorka.delivery.handlers.BottomSheetHandler
+import com.egorka.delivery.handlers.GoogleMapHandler
 import com.egorka.delivery.services.BottomState
+import com.egorka.delivery.services.transparentStatusAndNavigation
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -31,8 +32,7 @@ import kotlinx.android.synthetic.main.bottom_sheet.suggestionsRecycler
 
 class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.OnRequestPermissionsResultCallback {
 
-    lateinit var presenter: MainPresenterInterface
-
+    private var presenter: MainPresenterInterface? = null
     private var mapDelegate: GoogleMap? = null
     private var mapCoordinate: CameraPosition? = null
     private var addressAdapter: AddressAdapter? = null
@@ -46,19 +46,20 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        transparentStatusAndNavigation()
+
         presenter = MainPresenter(this)
-        presenter.onCreate()
 
         menuButton.setOnClickListener { drawer_layout.openDrawer(menuView) }
         menuView.setNavigationItemSelectedListener { MainMenu(this, drawer_layout).pressButton(it.itemId); true }
 
-        pickupEditText.addTextChangedListener(EditTextWatcher { presenter.textDidChange(it) })
-        pickupEditText.setOnFocusChangeListener { _, isFocused -> if (isFocused) presenter.selectTextField() }
-        pickupEditText.setOnClickListener { presenter.selectTextField() }
+        pickupEditText.addTextChangedListener(EditTextWatcher { presenter?.textDidChange(it) })
+        pickupEditText.setOnFocusChangeListener { _, isFocused -> if (isFocused) presenter?.selectTextField() }
+        pickupEditText.setOnClickListener { presenter?.selectTextField() }
 
-        dropEditText.addTextChangedListener(EditTextWatcher { presenter.textDidChange(it) })
-        dropEditText.setOnFocusChangeListener { _, isFocused -> if (isFocused) presenter.selectTextField() }
-        dropEditText.setOnClickListener { presenter.selectTextField() }
+        dropEditText.addTextChangedListener(EditTextWatcher { presenter?.textDidChange(it) })
+        dropEditText.setOnFocusChangeListener { _, isFocused -> if (isFocused) presenter?.selectTextField() }
+        dropEditText.setOnClickListener { presenter?.selectTextField() }
 
         val mapView = supportFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
         mapView.getMapAsync { startGoogleMap(it) }
@@ -66,20 +67,20 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
         bottomSheet = BottomSheetBehavior.from(mainBottomSheet)
         bottomSheet?.isHideable = true
         bottomSheet?.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheet?.addBottomSheetCallback(BottomSheetHandler { presenter.bottomStateChanged(it)})
+        bottomSheet?.addBottomSheetCallback(BottomSheetHandler { presenter?.bottomStateChanged(it)})
 
-        pickupFieldButton.setOnClickListener { presenter.pressPickupFieldButton() }
-        dropFieldButton.setOnClickListener { presenter.pressDropFieldButton() }
+        pickupFieldButton.setOnClickListener { presenter?.pressPickupFieldButton() }
+        dropFieldButton.setOnClickListener { presenter?.pressDropFieldButton() }
 
-        bottomHeight = resources.displayMetrics.heightPixels - resources.getDimension(R.dimen._70sdp).toInt()
+        bottomHeight = resources.displayMetrics.heightPixels - resources.getDimension(R.dimen._80sdp).toInt()
         bottomHeight?.let { mainBottomSheet.layoutParams.height = (it) }
 
-        addressAdapter = AddressAdapter { presenter.selectAddress(it) }
+        addressAdapter = AddressAdapter { presenter?.selectAddress(it) }
 
         suggestionsRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         suggestionsRecycler.adapter = addressAdapter
 
-        typeAdapter = DeliveryType { presenter.selectTypeDelivery(it) }
+        typeAdapter = DeliveryType { presenter?.selectTypeDelivery(it) }
 
         deliveryTypeRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         deliveryTypeRecycler.adapter = typeAdapter
@@ -88,16 +89,16 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
 
     override fun onResume() {
         super.onResume()
-        presenter.onResume()
+        presenter?.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        presenter.onPause()
+        presenter?.onPause()
     }
 
     override fun onBackPressed() {
-        presenter.onBackPressed()
+        presenter?.onBackPressed()
     }
 
     private fun startGoogleMap(map: GoogleMap) {
@@ -108,14 +109,14 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
 
             if (mapNotify) {
                 mapCoordinate = mapDelegate?.cameraPosition
-                presenter.changeCameraPosition()
+                presenter?.changeCameraPosition()
             }
 
             mapNotify = true
 
         }
 
-        mapDelegate?.setOnMapClickListener { presenter.hideKeyboard() }
+        mapDelegate?.setOnMapClickListener { presenter?.hideKeyboard() }
 
     }
 
@@ -178,7 +179,7 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        presenter.requestPermissions(requestCode)
+        presenter?.requestPermissions(requestCode)
     }
 
     override fun getFocusField(): FocusState {
@@ -191,23 +192,16 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
 
     override fun setPolyline(polylineOptions: PolylineOptions) {
 
+        val gMapHandler = GoogleMapHandler(this)
         val size = resources.getDimension(R.dimen._30sdp).toInt()
 
-        val builder = LatLngBounds.Builder()
-        val pickup = MarkerOptions().position(LatLng(polylineOptions.points.first().latitude, polylineOptions.points.first().longitude))
-        val drop = MarkerOptions().position(LatLng(polylineOptions.points.last().latitude, polylineOptions.points.last().longitude))
-
-        polylineOptions.points.forEach { builder.include(it) }
-        pickup.icon(BitmapDescriptorFactory.fromBitmap(ContextCompat.getDrawable(this, R.drawable.ic_pin_pickup)!!.toBitmap(size, size, null)))
-        drop.icon(BitmapDescriptorFactory.fromBitmap(ContextCompat.getDrawable(this, R.drawable.ic_pin_drop)!!.toBitmap(size, size, null)))
-
-        cameraPosition = CameraUpdateFactory.newLatLngBounds(builder.build(), size)
+        cameraPosition = gMapHandler.getCameraPosition(polylineOptions.points, size)
 
         mapDelegate?.addPolyline(polylineOptions)
-        mapDelegate?.addMarker(pickup)
-        mapDelegate?.addMarker(drop)
+        mapDelegate?.addMarker(gMapHandler.getMarker(polylineOptions.points.first(), R.drawable.ic_pin_pickup, size))
+        mapDelegate?.addMarker(gMapHandler.getMarker(polylineOptions.points.last(), R.drawable.ic_pin_drop, size))
 
-        presenter.didRouteLaid()
+        presenter?.didRouteLaid()
 
         mapDelegate?.animateCamera(cameraPosition)
         mapNotify = false

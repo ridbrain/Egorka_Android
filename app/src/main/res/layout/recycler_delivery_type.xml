@@ -10,6 +10,7 @@
             android:id="@+id/cardView"
             android:layout_width="@dimen/_75sdp"
             android:layout_height="@dimen/_60sdp"
+            app:cardBackgroundColor="@drawable/selector_white"
             app:cardCornerRadius="@dimen/_10sdp"
             app:cardElevation="0dp"
             tools:ignore="MissingConstraints">
@@ -20,7 +21,6 @@
                 android:layout_gravity="center|left"
                 android:paddingStart="@dimen/_5sdp"
                 android:orientation="vertical"
-                android:background="@drawable/selector_white"
                 tools:ignore="RtlHardcoded,RtlSymmetry">
 
             <ImageView

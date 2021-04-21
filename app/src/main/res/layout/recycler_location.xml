@@ -1,85 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_70sdp"
-        android:gravity="center|left"
-        android:background="@drawable/selector_white"
-        android:orientation="vertical"
-        tools:ignore="RtlHardcoded">
+        app:cardBackgroundColor="@drawable/selector_white">
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:orientation="horizontal"
-            tools:ignore="UseCompoundDrawables,UselessParent">
+            android:layout_height="match_parent"
+            android:gravity="center|left"
+            android:orientation="vertical"
+            tools:ignore="RtlHardcoded">
 
-        <FrameLayout
-                android:layout_width="@dimen/_19sdp"
-                android:layout_height="@dimen/_19sdp">
-
-            <TextView
-                    style="@style/Label"
-                    android:id="@+id/numTextView"
-                    android:layout_width="@dimen/_11sdp"
-                    android:layout_height="@dimen/_11sdp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/background_round_red"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_8sdp"/>
-
-        </FrameLayout>
-
-        <TextView
-                style="@style/Label"
-                android:id="@+id/addressLabel"
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_1sdp"
-                android:layout_gravity="center"
-                android:textSize="@dimen/_13sdp"
-                android:text="Address"/>
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables,UselessParent">
 
-    </LinearLayout>
+            <FrameLayout
+                    android:layout_width="@dimen/_19sdp"
+                    android:layout_height="@dimen/_19sdp">
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:orientation="horizontal">
+                <TextView
+                        style="@style/Label"
+                        android:id="@+id/numTextView"
+                        android:layout_width="@dimen/_11sdp"
+                        android:layout_height="@dimen/_11sdp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/background_round_red"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_8sdp"/>
 
-        <FrameLayout
-                android:layout_width="@dimen/_19sdp"
-                android:layout_height="@dimen/_19sdp">
+            </FrameLayout>
 
-            <ImageView
-                    android:id="@+id/imgView"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
+            <TextView
+                    style="@style/Label"
+                    android:id="@+id/addressLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_1sdp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_down_arrow"
-                    app:tint="@color/colorGrayDark"
-                    tools:ignore="ContentDescription"/>
+                    android:textSize="@dimen/_13sdp"
+                    android:text="Address"/>
 
-        </FrameLayout>
+        </LinearLayout>
 
-        <TextView
-                style="@style/Label"
-                android:id="@+id/detailsLabel"
-                android:layout_width="wrap_content"
+        <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_7sdp"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_gravity="center"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/_11sdp"
-                android:text="Details"/>
+                android:orientation="horizontal">
+
+            <FrameLayout
+                    android:layout_width="@dimen/_19sdp"
+                    android:layout_height="@dimen/_19sdp">
+
+                <ImageView
+                        android:id="@+id/imgView"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_down_arrow"
+                        app:tint="@color/colorGrayDark"
+                        tools:ignore="ContentDescription"/>
+
+            </FrameLayout>
+
+            <TextView
+                    style="@style/Label"
+                    android:id="@+id/detailsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_11sdp"
+                    android:text="Details"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

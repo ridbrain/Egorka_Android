@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "915576640707",
+    "project_id": "egorka-delivery-f8cd9",
+    "storage_bucket": "egorka-delivery-f8cd9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915576640707:android:1f15d3b1ce4aa1d0c2fe76",
+        "android_client_info": {
+          "package_name": "com.egorka.delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "915576640707-536m8t732o02cfleef9kaj0fildgkrjc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBy5hwH8vhjfYzMlHKRbS_YdiL4de7aKoA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915576640707-536m8t732o02cfleef9kaj0fildgkrjc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "915576640707-5sn8akjjvajatvpuckim3brb2tpgijj5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.egorka.delivery.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

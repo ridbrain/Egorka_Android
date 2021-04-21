@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class SplashActivity : AppCompatActivity(), SplashActivityInterface {
 
-    lateinit var presenter: SplashPresenter
+    private var presenter: SplashPresenterInterface? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +19,7 @@ class SplashActivity : AppCompatActivity(), SplashActivityInterface {
 
     override fun onResume() {
         super.onResume()
-        presenter.onResume()
+        presenter?.onResume()
     }
 
     override fun getContext(): Activity {

@@ -10,5 +10,6 @@ interface SplashActivityInterface {
 }
 
 interface SplashPresenterInterface {
+    fun onStart()
     fun onResume()
 }

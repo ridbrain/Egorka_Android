@@ -41,4 +41,5 @@
     <string name="hintWhatDelivery">Документы / Цветы / Техника / Личная вещь</string>
     <string name="coinDelivery">Ценность вашего груза?</string>
     <string name="hintCoinDelivery">До 100000 ₽</string>
+    <string name="update">Обновить</string>
 </resources>

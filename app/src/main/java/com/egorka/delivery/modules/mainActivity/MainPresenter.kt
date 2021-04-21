@@ -1,6 +1,5 @@
 package com.egorka.delivery.modules.mainActivity
 
-import android.content.*
 import android.os.Handler
 import android.os.Looper
 import com.egorka.delivery.R
@@ -16,20 +15,15 @@ import com.egorka.delivery.handlers.NetworkHandler
 import com.egorka.delivery.services.*
 import java.util.ArrayList
 
-class MainPresenter(override var view: MainActivityInterface): BasePresenter, MainPresenterInterface {
+class MainPresenter(override var view: MainActivityInterface): MainPresenterInterface {
 
-    override var mainService: MainService? = null
-    private var serviceConnection = ServiceConnect(this)
-
-    private lateinit var locationHandler: LocationHandler
-
+    private var mainService: MainService? = null
+    private var locationHandler: LocationHandler? = null
     private var myLocation = false
     private var routeLaid = false
     private var keyboardHide = true
 
-    override fun onCreate() {
-        view.getContext().bindService(Intent(view.getContext(), MainService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
-    }
+    init { ServiceConnect(view.getContext()) { mainService = it ; onStart() } }
 
     override fun onStart() {
 
@@ -185,8 +179,8 @@ class MainPresenter(override var view: MainActivityInterface): BasePresenter, Ma
     }
 
     override fun requestPermissions(code: Int) {
-        if (code == locationHandler.code) {
-            locationHandler.tryLocation()
+        if (code == locationHandler?.code) {
+            locationHandler?.tryLocation()
         }
     }
 
@@ -352,7 +346,7 @@ class MainPresenter(override var view: MainActivityInterface): BasePresenter, Ma
     }
 
     private fun moveMyLocation() {
-        locationHandler.location?.let {
+        locationHandler?.location?.let {
             view.setMapRegion(LatLng(it.latitude, it.longitude))
         }
     }

@@ -1,22 +1,33 @@
 package com.egorka.delivery.modules.currentOrderActivity
 
-
-import android.content.Context
-import android.content.Intent
-import com.egorka.delivery.services.BasePresenter
+import com.egorka.delivery.adapters.NumState
+import com.egorka.delivery.handlers.GoogleMapHandler
 import com.egorka.delivery.services.MainService
 import com.egorka.delivery.services.ServiceConnect
 
-class CurrentOrderPresenter(override var view: CurrentOrderActivityInterface): BasePresenter, CurrentOrderPresenterInterface {
+class CurrentOrderPresenter(override var view: CurrentOrderActivityInterface): CurrentOrderPresenterInterface {
 
-    override var mainService: MainService? = null
-    private var serviceConnection = ServiceConnect(this)
+    private var mainService: MainService? = null
 
-    override fun onCreate() {
-        view.getContext().bindService(Intent(view.getContext(), MainService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
-    }
+    init { ServiceConnect(view.getContext()) { mainService = it ; onStart() } }
 
     override fun onStart() {
+
+        mainService?.mainModel?.let { model ->
+
+            if (model.pickups == null) { return }
+            if (model.drops == null) { return }
+
+            val locations = mutableListOf(model.pickups!!.first(), model.drops!!.first())
+
+            GoogleMapHandler(view.getContext()).getRoute(locations.first().Point!!, locations.last().Point!!) {
+                view.setPolyline(it)
+            }
+
+            view.updateAdapter(locations, NumState.Full)
+
+        }
+
 
     }
 
@@ -31,5 +42,6 @@ class CurrentOrderPresenter(override var view: CurrentOrderActivityInterface): B
     override fun onBackPressed() {
 
     }
+
 
 }

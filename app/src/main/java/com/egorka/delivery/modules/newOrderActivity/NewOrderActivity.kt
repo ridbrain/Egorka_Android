@@ -20,8 +20,7 @@ import kotlinx.android.synthetic.main.bottom_sheet_pay.*
 
 class NewOrderActivity: AppCompatActivity(), NewOrderActivityInterface {
 
-    lateinit var presenter: NewOrderPresenterInterface
-
+    private var presenter: NewOrderPresenterInterface? = null
     private var bottomSheet: BottomSheetBehavior<LinearLayout>? = null
     private var touchHelperPickup: SwipeToDeleteHandler? = null
     private var touchHelperDrop: SwipeToDeleteHandler? = null
@@ -31,23 +30,30 @@ class NewOrderActivity: AppCompatActivity(), NewOrderActivityInterface {
         setContentView(R.layout.activity_new_order)
 
         presenter = NewOrderPresenter(this)
-        presenter.onCreate()
 
         cancelButton.setOnClickListener { onBackPressed() }
 
         pickupRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         dropRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        touchHelperPickup = SwipeToDeleteHandler(this) { presenter.removePickup(it) }
-        touchHelperDrop = SwipeToDeleteHandler(this) { presenter.removeDrop(it) }
+        touchHelperPickup = SwipeToDeleteHandler(this) { presenter?.removePickup(it) }
+        touchHelperDrop = SwipeToDeleteHandler(this) { presenter?.removeDrop(it) }
 
         bottomSheet = BottomSheetBehavior.from(bottomSheetPay)
         bottomSheet?.isHideable = true
         bottomSheet?.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheet?.addBottomSheetCallback(BottomSheetHandler { presenter.bottomStateChanged(it)})
+        bottomSheet?.addBottomSheetCallback(BottomSheetHandler { presenter?.bottomStateChanged(it) })
 
-        addPickupButton.setOnClickListener { presenter.newPickup() }
-        addDropButton.setOnClickListener { presenter.newDrop() }
+        addPickupButton.setOnClickListener { presenter?.newPickup() }
+        addDropButton.setOnClickListener { presenter?.newDrop() }
+
+        whatField.setOnFocusChangeListener { _, isFocused -> if (isFocused) presenter?.openKeyboard() }
+        whatField.setOnClickListener { presenter?.openKeyboard() }
+
+        coinField.setOnFocusChangeListener { _, isFocused -> if (isFocused) presenter?.openKeyboard() }
+        coinField.setOnClickListener { presenter?.openKeyboard() }
+
+        rootView.setOnClickListener { presenter?.hideKeyboard() }
 
     }
 
@@ -67,7 +73,7 @@ class NewOrderActivity: AppCompatActivity(), NewOrderActivityInterface {
 
     override fun onResume() {
         super.onResume()
-        presenter.onResume()
+        presenter?.onResume()
     }
 
     override fun getContext(): Activity {
@@ -77,11 +83,11 @@ class NewOrderActivity: AppCompatActivity(), NewOrderActivityInterface {
     override fun updateAdapters(pickups: MutableList<NewOrderLocation>, drops: MutableList<NewOrderLocation>, numState: NumState) {
 
         pickupRecycler.adapter = LocationAdapter(this, numState, pickups) { location, index, view ->
-            presenter.openDetails(location, index, view)
+            presenter?.openDetails(location, index, view)
         }
 
         dropRecycler.adapter = LocationAdapter(this, numState, drops) { location, index, view ->
-            presenter.openDetails(location, index, view)
+            presenter?.openDetails(location, index, view)
         }
 
         if (pickups.size > 1) {
@@ -106,11 +112,11 @@ class NewOrderActivity: AppCompatActivity(), NewOrderActivityInterface {
 
         when (state) {
             BottomState.Small -> {
-                bottomSheet?.peekHeight = resources.getDimension(R.dimen._155sdp).toInt()
+                bottomSheet?.peekHeight = resources.getDimension(R.dimen._125sdp).toInt()
                 bottomSheet?.state = BottomSheetBehavior.STATE_COLLAPSED
             }
             BottomState.Medium -> {
-                bottomSheet?.peekHeight = resources.getDimension(R.dimen._155sdp).toInt()
+                bottomSheet?.peekHeight = resources.getDimension(R.dimen._125sdp).toInt()
                 bottomSheet?.state = BottomSheetBehavior.STATE_COLLAPSED
             }
             BottomState.Big -> {
@@ -118,6 +124,10 @@ class NewOrderActivity: AppCompatActivity(), NewOrderActivityInterface {
             }
         }
 
+    }
+
+    override fun hideBottomSheet() {
+        bottomSheet?.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
 }

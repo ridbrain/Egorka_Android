@@ -4,8 +4,16 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.ClipData
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
+import android.content.ClipboardManager
+import android.graphics.Color
+import android.os.Build
+import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.egorka.delivery.R
 import java.text.SimpleDateFormat
@@ -25,6 +33,45 @@ fun Activity.showKeyboard() {
 fun Activity.hideKeyboard() {
     val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     window.decorView.rootView?.let { view -> inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0) }
+}
+
+fun Activity.copyString(text: String) {
+    val clipBoard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+    clipBoard.setPrimaryClip(ClipData.newPlainText("text", text))
+}
+
+fun Activity.showToast(text: String) {
+    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+}
+
+fun Activity.transparentStatusAndNavigation(systemUiScrim: Int = Color.parseColor("#40000000")) {
+
+    var systemUiVisibility = 0
+    var statusBarColor = systemUiScrim
+    val winParams = window.attributes
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        systemUiVisibility = systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        statusBarColor = Color.TRANSPARENT
+    }
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        systemUiVisibility = systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+    }
+
+    systemUiVisibility = systemUiVisibility or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+
+    window.decorView.systemUiVisibility = systemUiVisibility
+
+    winParams.flags = winParams.flags or WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        winParams.flags = winParams.flags and  (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS).inv()
+        window.statusBarColor = statusBarColor
+    }
+
+    window.attributes = winParams
+
 }
 
 fun DatePickerDialog.setAccentColorButton() {

@@ -1,6 +1,7 @@
 package com.egorka.delivery.modules.errorActivity
 
 import com.egorka.delivery.handlers.DataHandler
+import com.egorka.delivery.services.GeneralRouter
 
 class ErrorPresenter(override var view: ErrorActivityInterface): ErrorPresenterInterface {
 
@@ -18,6 +19,10 @@ class ErrorPresenter(override var view: ErrorActivityInterface): ErrorPresenterI
 
     override fun onBackPressed() {
 
+    }
+
+    override fun pressUpdate() {
+        GeneralRouter(view.getContext()).openMainActivity()
     }
 
 }

@@ -23,8 +23,7 @@ import java.util.*
 
 class DetailsActivity: AppCompatActivity(), DetailsActivityInterface {
 
-    private lateinit var presenter: DetailsPresenter
-
+    private var presenter: DetailsPresenterInterface? = null
     private var addressAdapter: AddressAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,28 +31,27 @@ class DetailsActivity: AppCompatActivity(), DetailsActivityInterface {
         setContentView(R.layout.activity_details)
 
         presenter = DetailsPresenter(this)
-        presenter.onCreate()
 
         backButton.setOnClickListener { onBackPressed() }
 
         val formatWatcher = MaskFormatWatcher(MaskImpl.createTerminated(UnderscoreDigitSlotsParser().parseSlots("+7 (___) ___-__-__")))
         formatWatcher.installOn(phoneField)
 
-        needNowCheckBox.setOnClickListener { presenter.setQuickly(needNowCheckBox.isChecked) }
-        dateField.setOnClickListener { presenter.pressDate() }
-        timeField.setOnClickListener { presenter.pressTime() }
+        needNowCheckBox.setOnClickListener { presenter?.setQuickly(needNowCheckBox.isChecked) }
+        dateField.setOnClickListener { presenter?.pressDate() }
+        timeField.setOnClickListener { presenter?.pressTime() }
 
-        addressField.addTextChangedListener(EditTextWatcher { presenter.textDidChange(it) })
-        addressField.setOnFocusChangeListener { _, isFocused -> if (isFocused) presenter.selectTextField() }
-        addressField.setOnClickListener { presenter.selectTextField() }
-        addressFieldButton.setOnClickListener { presenter.pressAddressFieldButton() }
+        addressField.addTextChangedListener(EditTextWatcher { presenter?.textDidChange(it) })
+        addressField.setOnFocusChangeListener { _, isFocused -> if (isFocused) presenter?.selectTextField() }
+        addressField.setOnClickListener { presenter?.selectTextField() }
+        addressFieldButton.setOnClickListener { presenter?.pressAddressFieldButton() }
 
-        addressAdapter = AddressAdapter { presenter.selectAddress(it) }
+        addressAdapter = AddressAdapter { presenter?.selectAddress(it) }
 
         suggestionsRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         suggestionsRecycler.adapter = addressAdapter
 
-        rootView.setOnClickListener { presenter.hideKeyboard() }
+        rootView.setOnClickListener { presenter?.hideKeyboard() }
 
     }
 
@@ -68,7 +66,7 @@ class DetailsActivity: AppCompatActivity(), DetailsActivityInterface {
     }
 
     override fun onBackPressed() {
-        presenter.onBackPressed()
+        presenter?.onBackPressed()
         super.onBackPressed()
     }
 
@@ -94,7 +92,7 @@ class DetailsActivity: AppCompatActivity(), DetailsActivityInterface {
     override fun showDatePicker(calendar: Calendar) {
 
         val datePickerDialog = DatePickerDialog(this, R.style.DatePicker, { _, year, month, day ->
-            presenter.setDate(year, month, day)
+            presenter?.setDate(year, month, day)
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) )
 
         datePickerDialog.show()
@@ -105,7 +103,7 @@ class DetailsActivity: AppCompatActivity(), DetailsActivityInterface {
     override fun showTimePicker(calendar: Calendar) {
 
         val datePickerDialog = TimePickerDialog(this, R.style.DatePicker, { _, hour, minutes ->
-            presenter.setTime(hour, minutes)
+            presenter?.setTime(hour, minutes)
         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
 
         datePickerDialog.show()

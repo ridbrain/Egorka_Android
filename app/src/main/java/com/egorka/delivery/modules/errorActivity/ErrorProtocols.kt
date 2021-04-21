@@ -16,5 +16,6 @@ interface ErrorPresenterInterface {
     fun onResume()
     fun onPause()
     fun onBackPressed()
+    fun pressUpdate()
 
 }

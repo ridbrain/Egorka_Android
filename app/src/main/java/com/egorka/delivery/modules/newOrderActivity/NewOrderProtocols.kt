@@ -12,12 +12,13 @@ interface NewOrderActivityInterface {
     fun updateAdapters(pickups: MutableList<NewOrderLocation>, drops: MutableList<NewOrderLocation>, numState: NumState)
     fun getTransitionName(): String
     fun setBottomSheetState(state: BottomState)
+    fun hideBottomSheet()
 
 }
 
 interface NewOrderPresenterInterface {
 
-    fun onCreate()
+    fun onStart()
     fun onResume()
     fun openDetails(location: NewOrderLocation, index: Int, view: View)
     fun bottomStateChanged(state: Int)
@@ -25,5 +26,7 @@ interface NewOrderPresenterInterface {
     fun newDrop()
     fun removePickup(index: Int)
     fun removeDrop(index: Int)
+    fun openKeyboard()
+    fun hideKeyboard()
 
 }

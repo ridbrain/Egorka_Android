@@ -10,6 +10,7 @@ import android.os.Looper
 import android.view.View
 import com.egorka.delivery.R
 import com.egorka.delivery.handlers.DataHandler
+import com.egorka.delivery.modules.aboutActivity.AboutActivity
 import com.egorka.delivery.modules.currentOrderActivity.CurrentOrderActivity
 import com.egorka.delivery.modules.detailsActivity.DetailsActivity
 import com.egorka.delivery.modules.errorActivity.ErrorActivity
@@ -35,6 +36,12 @@ class GeneralRouter(val context: Activity) {
                 context.startActivity(Intent(context, ErrorActivity::class.java))
             }
         }, 500)
+
+    }
+
+    fun openMainActivity() {
+
+        context.startActivity(Intent(context, MainActivity::class.java))
 
     }
 
@@ -72,6 +79,12 @@ class GeneralRouter(val context: Activity) {
     fun openCurrentOrder() {
 
         context.startActivity(Intent(context, CurrentOrderActivity::class.java))
+
+    }
+
+    fun openAboutActivity() {
+
+        context.startActivity(Intent(context, AboutActivity::class.java))
 
     }
 
