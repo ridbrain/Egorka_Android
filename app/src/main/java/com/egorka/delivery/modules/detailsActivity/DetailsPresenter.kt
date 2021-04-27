@@ -6,6 +6,7 @@ import android.os.Looper
 import androidx.core.content.ContextCompat
 import com.egorka.delivery.R
 import com.egorka.delivery.entities.*
+import com.egorka.delivery.entities.Dictionary
 import com.egorka.delivery.handlers.NetworkHandler
 import com.egorka.delivery.services.*
 import java.text.SimpleDateFormat
@@ -28,7 +29,7 @@ class DetailsPresenter(override val view: DetailsActivityInterface): DetailsPres
 
     }
 
-    private fun loadDetails(location: NewOrderLocation, index: Int) {
+    private fun loadDetails(location: OrderLocation, index: Int) {
 
         if (location.Type == LocationType.Pickup) {
 
@@ -139,7 +140,7 @@ class DetailsPresenter(override val view: DetailsActivityInterface): DetailsPres
         }
     }
 
-    override fun selectAddress(address: Suggestion) {
+    override fun selectAddress(address: Dictionary.Suggestion) {
 
         view.setAddress(address.Name.toString())
         view.setFocus(address.Name.toString().length)

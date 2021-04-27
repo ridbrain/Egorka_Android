@@ -2,23 +2,26 @@ package com.egorka.delivery.modules.mainActivity
 
 import android.os.Handler
 import android.os.Looper
-import com.egorka.delivery.R
-import com.egorka.delivery.adapters.TypeDelivery
+import com.egorka.delivery.entities.Delivery
+import com.egorka.delivery.entities.DeliveryType
 import com.egorka.delivery.handlers.LocationHandler
 import com.egorka.delivery.entities.LocationType
-import com.egorka.delivery.entities.NewOrderLocation
-import com.egorka.delivery.entities.Suggestion
+import com.egorka.delivery.entities.OrderLocation
+import com.egorka.delivery.entities.Dictionary.Suggestion
 import com.egorka.delivery.handlers.GoogleMapHandler
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.egorka.delivery.handlers.NetworkHandler
 import com.egorka.delivery.services.*
-import java.util.ArrayList
 
 class MainPresenter(override var view: MainActivityInterface): MainPresenterInterface {
 
     private var mainService: MainService? = null
     private var locationHandler: LocationHandler? = null
+
+    private var pickup: OrderLocation? = null
+    private var drop: OrderLocation? = null
+
     private var myLocation = false
     private var routeLaid = false
     private var keyboardHide = true
@@ -93,7 +96,7 @@ class MainPresenter(override var view: MainActivityInterface): MainPresenterInte
             if (coordinate != LatLng(0.0,0.0)) {
                 GoogleMapHandler(view.getContext()).getAddress(coordinate) { address ->
                     NetworkHandler(view.getContext()).searchAddress(address) { suggestions ->
-                        mainService?.mainModel?.pickups = mutableListOf(NewOrderLocation(1, LocationType.Pickup, suggestions[0]))
+                        pickup = OrderLocation(1, LocationType.Pickup, suggestions[0])
                         view.setAddress(FocusState.First, suggestions[0].Name!!)
                         view.setSuggestions(suggestions)
                     }
@@ -198,14 +201,14 @@ class MainPresenter(override var view: MainActivityInterface): MainPresenterInte
             when(view.getFocusField()) {
                 FocusState.First -> {
 
-                    mainService?.mainModel?.pickups = mutableListOf(NewOrderLocation(1, LocationType.Pickup, address))
+                    pickup = OrderLocation(1, LocationType.Pickup, address)
                     view.showDropEditText(true)
 
                     address.Point?.let {
                         view.setMapRegion(LatLng(it.Latitude!!, it.Longitude!!))
                     }
 
-                    mainService?.mainModel?.drops?.get(0)?.Point?.let {
+                    drop?.Point?.let {
 
                         if (it.Code != address.ID) {
 
@@ -225,9 +228,9 @@ class MainPresenter(override var view: MainActivityInterface): MainPresenterInte
                 }
                 FocusState.Second -> {
 
-                    mainService?.mainModel?.drops = mutableListOf(NewOrderLocation(2, LocationType.Drop, address))
+                    drop = OrderLocation(2, LocationType.Drop, address)
 
-                    mainService?.mainModel?.pickups?.get(0)?.Point?.let {
+                    pickup?.Point?.let {
 
                         if (it.Code != address.ID) {
 
@@ -250,33 +253,41 @@ class MainPresenter(override var view: MainActivityInterface): MainPresenterInte
     }
 
     private fun setRoute() {
-        if (mainService?.mainModel?.drops?.size != null && mainService?.mainModel?.pickups?.size != null) {
-            if (view.getPickupText() == mainService?.mainModel?.pickups!![0].Point?.Address
-                    && view.getDropText() == mainService?.mainModel?.drops!![0].Point?.Address
-            ) {
-                GoogleMapHandler(view.getContext()).getRoute(mainService?.mainModel?.pickups!![0].Point!!, mainService?.mainModel?.drops!![0].Point!!) {
-                    view.setPolyline(it)
-                    view.showPin(false)
-                }
+
+        if (pickup == null) { return }
+        if (drop == null) { return }
+
+        if (view.getPickupText() == pickup!!.Point?.Address && view.getDropText() == drop!!.Point?.Address ) {
+            GoogleMapHandler(view.getContext()).getRoute(pickup!!.Point!!, drop!!.Point!!) {
+                view.setPolyline(it)
+                view.showPin(false)
             }
         }
+
     }
 
     override fun didRouteLaid() {
 
         routeLaid = true
-        setTypesDelivery()
+
+        if (pickup == null) { return }
+        if (drop == null) { return }
+
+        val types = mutableListOf<Delivery>()
+
+        NetworkHandler(view.getContext()).calculateDelivery(DeliveryType.Walk, listOf(pickup!!, drop!!)) {
+            types.add(it)
+            updatePrices(types)
+        }
+
+        NetworkHandler(view.getContext()).calculateDelivery(DeliveryType.Car, listOf(pickup!!, drop!!)) {
+            types.add(it)
+            updatePrices(types)
+        }
 
     }
 
-    private fun setTypesDelivery() {
-
-        val types = ArrayList<TypeDelivery>()
-
-        types.add(TypeDelivery(1, "Пеший", 120f, R.drawable.ic_leg))
-        types.add(TypeDelivery(2, "Скутер", 130f, R.drawable.ic_bike))
-        types.add(TypeDelivery(3, "Легковой", 140f, R.drawable.ic_car))
-        types.add(TypeDelivery(4, "Грузовой", 150f, R.drawable.ic_track))
+    private fun updatePrices(types: List<Delivery>) {
 
         view.updateTypeAdapter(types)
         view.showButtons(true)
@@ -304,8 +315,9 @@ class MainPresenter(override var view: MainActivityInterface): MainPresenterInte
 
     }
 
-    override fun selectTypeDelivery(type: Int) {
+    override fun selectTypeDelivery(type: Delivery) {
 
+        mainService?.mainModel?.newOrder = type
         GeneralRouter(view.getContext()).openNewOrderActivity()
 
     }
@@ -313,9 +325,8 @@ class MainPresenter(override var view: MainActivityInterface): MainPresenterInte
     private fun deleteRoute(causes: Causes) {
 
         routeLaid = false
-
-        mainService?.mainModel?.pickups = null
-        mainService?.mainModel?.drops = null
+        pickup = null
+        drop = null
 
         view.deletePolyline()
         view.showPin(true)

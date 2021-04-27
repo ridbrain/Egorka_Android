@@ -2,7 +2,7 @@ package com.egorka.delivery.modules.detailsActivity
 
 import android.app.Activity
 import android.graphics.drawable.Drawable
-import com.egorka.delivery.entities.Suggestion
+import com.egorka.delivery.entities.Dictionary.Suggestion
 import java.util.*
 
 interface DetailsActivityInterface {

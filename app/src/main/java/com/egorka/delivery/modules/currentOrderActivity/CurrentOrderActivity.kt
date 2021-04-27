@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.egorka.delivery.R
 import com.egorka.delivery.adapters.LocationAdapter
 import com.egorka.delivery.adapters.NumState
-import com.egorka.delivery.entities.NewOrderLocation
+import com.egorka.delivery.entities.OrderLocation
 import com.egorka.delivery.handlers.GoogleMapHandler
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -67,7 +67,7 @@ class CurrentOrderActivity : AppCompatActivity(), CurrentOrderActivityInterface 
 
     }
 
-    override fun updateAdapter(locations: MutableList<NewOrderLocation>, numState: NumState) {
+    override fun updateAdapter(locations: MutableList<OrderLocation>, numState: NumState) {
 
         routeRecycler.adapter = LocationAdapter(this, numState, locations) { _, _, _ -> }
 

@@ -32,6 +32,11 @@ interface RestApi {
         @Body param: Parameters
     ): Call<Dictionary>
 
+    @POST("service/delivery/")
+    fun getDelivery(
+        @Body param: Parameters
+    ): Call<Delivery>
+
 }
 
 class NetworkHandler(val context: Activity) {
@@ -77,15 +82,28 @@ class NetworkHandler(val context: Activity) {
 
     }
 
-    fun searchAddress(address: String, callBack: (List<Suggestion>) -> Unit) {
+    fun searchAddress(address: String, callBack: (List<Dictionary.Suggestion>) -> Unit) {
 
-        val param = Parameters(context, "Location", Body(address), Params())
+        val param = Parameters(context, "Location", com.egorka.delivery.entities.Query(address), Params())
 
         getClient().getSuggestions(param).enqueue(Request<Dictionary>(context) {
             it.body()?.Result?.Suggestions?.let { suggestions ->
                 if (suggestions.isNotEmpty()) {
                     callBack(suggestions)
                 }
+            }
+        })
+
+    }
+
+    fun calculateDelivery(type: DeliveryType, locations: List<OrderLocation>, callBack: (Delivery) -> Unit) {
+
+        val param = Parameters(context, "Calculate",  DeliveryCalc(type, locations), Params())
+
+        getClient().getDelivery(param).enqueue(Request<Delivery>(context) { delivery ->
+            delivery.body()?.Type = type
+            delivery.body()?.Result?.TotalPrice?.let {
+                callBack(delivery.body()!!)
             }
         })
 

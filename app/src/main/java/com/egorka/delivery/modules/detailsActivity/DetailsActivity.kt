@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.egorka.delivery.R
 import com.egorka.delivery.adapters.AddressAdapter
 import com.egorka.delivery.delegates.EditTextWatcher
-import com.egorka.delivery.entities.Suggestion
+import com.egorka.delivery.entities.Dictionary.Suggestion
 import com.egorka.delivery.services.setAccentColorButton
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.activity_details.suggestionsRecycler

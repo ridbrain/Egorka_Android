@@ -4,133 +4,183 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import com.egorka.delivery.adapters.NumState
+import com.egorka.delivery.adapters.TypeData
 import com.egorka.delivery.entities.*
+import com.egorka.delivery.handlers.NetworkHandler
 import com.egorka.delivery.services.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class NewOrderPresenter(private val view: NewOrderActivityInterface): NewOrderPresenterInterface {
 
     private var mainService: MainService? = null
-    private var keyboardHide = true
+    private var bottomViewHide = true
 
-    override fun onStart() {
-
-        mainService?.mainModel?.let { model ->
-
-            updateLists(model)
-
-            Handler(Looper.getMainLooper()).postDelayed({
-                view.setBottomSheetState(BottomState.Small)
-            }, 500)
-
-        }
-
-    }
+    init { ServiceConnect(view.getContext()) { mainService = it ; onResume() } }
 
     override fun onResume() {
-        ServiceConnect(view.getContext()) { mainService = it ; onStart() }
+
+        updateLists()
+        updateOrder()
+
     }
 
-    private fun updateLists(model: MainModelInterface) {
+    private fun updateOrder() {
 
-        var index = 1
+        mainService?.mainModel?.newOrder?.let { delivery ->
 
-        model.pickups = model.pickups?.filter{ it.Point?.Code != null }?.toMutableList()
-        model.drops = model.drops?.filter{ it.Point?.Code != null }?.toMutableList()
+            delivery.Result?.Locations = delivery.Result?.Locations?.filter { it.Point?.Code != null }?.toMutableList()
+            delivery.restoreIndex()
 
-        model.pickups?.forEach {
-            it.RouteOrder = index
-            index++
-        }
+            NetworkHandler(view.getContext()).calculateDelivery(delivery.Type!!, delivery.Result?.Locations!!) {
 
-        model.drops?.forEach {
-            it.RouteOrder = index
-            index++
-        }
+                mainService?.mainModel?.newOrder = it
+                updateLists()
+                updateBottomView(it.Type!!, it.Result!!.TotalPrice!!)
 
-        if ((model.pickups!!.size + model.drops!!.size) > 2) {
-            view.updateAdapters(model.pickups!!, model.drops!!, NumState.Full)
-        } else {
-            view.updateAdapters(model.pickups!!, model.drops!!, NumState.Lite)
+            }
+
         }
 
     }
 
-    override fun openDetails(location: NewOrderLocation, index: Int, view: View) {
+    private fun updateLists() {
 
-        mainService?.mainModel?.let { model ->
+        mainService?.mainModel?.newOrder?.let { delivery ->
 
-            model.details = location
-            model.detailsIndex = index
+            delivery.Result?.Locations = delivery.Result?.Locations?.filter { it.Point?.Code != null }?.toMutableList()
 
-            GeneralRouter(this.view.getContext()).openDetailsActivity(view, this.view.getTransitionName())
+            delivery.Result?.Locations?.let { locations ->
+
+                val pickups = locations.filter { it.Type == LocationType.Pickup }
+                val drops = locations.filter { it.Type == LocationType.Drop }
+
+                if ((pickups.size + drops.size) > 2) {
+                    view.updateAdapters(pickups.toMutableList(), drops.toMutableList(), NumState.Full)
+                } else {
+                    view.updateAdapters(pickups.toMutableList(), drops.toMutableList(), NumState.Lite)
+                }
+
+            }
 
         }
+
+    }
+
+    private fun updateBottomView(type: DeliveryType, price: Delivery.TotalPrice) {
+
+        view.setInfoFields(TypeData(type), price)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            view.setBottomSheetState(BottomState.Small)
+        }, 300)
+
+    }
+
+    override fun openDetails(location: OrderLocation, index: Int, view: View) {
+
+        hideBottomView()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+
+            mainService?.mainModel?.let { model ->
+
+                model.details = location
+                model.detailsIndex = index
+
+                GeneralRouter(this.view.getContext()).openDetailsActivity(view, this.view.getTransitionName())
+
+            }
+
+        }, 300)
 
     }
 
     override fun newPickup() {
 
-        mainService?.mainModel?.pickups?.last()?.RouteOrder?.let {
+        hideBottomView()
 
-            val newPickup = NewOrderLocation(it + 1, LocationType.Pickup, Suggestion())
+        Handler(Looper.getMainLooper()).postDelayed({
 
-            mainService?.mainModel?.pickups?.add(newPickup)
-            mainService?.mainModel?.details = newPickup
-            mainService?.mainModel?.detailsIndex = mainService?.mainModel?.pickups?.size?.minus(1)
+            mainService?.mainModel?.newOrder?.Result?.Locations?.let { locations ->
 
-            GeneralRouter(view.getContext()).openNewLocationActivity()
+                val pickups = locations
+                    .filter { it.Type == LocationType.Pickup }
+                    .sortedBy { it.RouteOrder }
+                    .toMutableList()
 
-        }
+                pickups.last().let { last ->
+
+                    val new = OrderLocation(last.RouteOrder!! + 1, LocationType.Pickup, Dictionary.Suggestion())
+                    pickups.add(new)
+
+                    val drops = locations.filter { it.Type == LocationType.Drop }.toMutableList()
+                    drops.forEach { it.RouteOrder = it.RouteOrder?.plus(1) }
+
+                    mainService?.mainModel?.newOrder?.updateLocations(pickups, drops)
+                    mainService?.mainModel?.detailsIndex = pickups.size - 1
+                    mainService?.mainModel?.details = new
+
+                    GeneralRouter(view.getContext()).openNewLocationActivity()
+
+                }
+
+            }
+
+        }, 300)
 
     }
 
     override fun newDrop() {
 
-        mainService?.mainModel?.drops?.last()?.RouteOrder?.let {
+        hideBottomView()
 
-            val newDrop = NewOrderLocation(it + 1, LocationType.Drop, Suggestion())
+        Handler(Looper.getMainLooper()).postDelayed({
 
-            mainService?.mainModel?.drops?.add(newDrop)
-            mainService?.mainModel?.details = newDrop
-            mainService?.mainModel?.detailsIndex = mainService?.mainModel?.drops?.size?.minus(1)
+            mainService?.mainModel?.newOrder?.Result?.Locations?.let { locations ->
 
-            GeneralRouter(view.getContext()).openNewLocationActivity()
+                val drops = locations
+                    .filter { it.Type == LocationType.Drop }
+                    .sortedBy { it.RouteOrder }
+                    .toMutableList()
+
+                drops.last().let { last ->
+
+                    val new = OrderLocation(last.RouteOrder!! + 1, LocationType.Drop, Dictionary.Suggestion())
+                    drops.add(new)
+
+                    mainService?.mainModel?.newOrder?.updateLocations(locations.filter { it.Type == LocationType.Pickup }.toMutableList(), drops)
+                    mainService?.mainModel?.detailsIndex = drops.size - 1
+                    mainService?.mainModel?.details = new
+
+                    GeneralRouter(view.getContext()).openNewLocationActivity()
+
+                }
+
+            }
+
+        }, 300)
+
+    }
+
+    override fun deleteLocation(routeOrder: Int) {
+
+        mainService?.mainModel?.newOrder?.let { delivery ->
+
+            delivery.Result?.Locations = delivery.Result?.Locations?.filter{ it.RouteOrder != routeOrder }?.toMutableList()
+            updateOrder()
 
         }
 
     }
 
-    override fun removePickup(index: Int) {
-
-        mainService?.mainModel?.let { model ->
-
-            model.pickups?.removeAt(index)
-            updateLists(model)
-
-        }
-
-    }
-
-    override fun removeDrop(index: Int) {
-
-        mainService?.mainModel?.let { model ->
-
-            model.drops?.removeAt(index)
-            updateLists(model)
-
-        }
-
-    }
-
-    override fun openKeyboard() {
-        keyboardHide = false
+    override fun hideBottomView() {
+        bottomViewHide = true
         view.hideBottomSheet()
     }
 
     override fun hideKeyboard() {
 
-        keyboardHide = true
+        bottomViewHide = false
         view.getContext().hideKeyboard()
 
         Handler(Looper.getMainLooper()).postDelayed({
@@ -140,7 +190,7 @@ class NewOrderPresenter(private val view: NewOrderActivityInterface): NewOrderPr
     }
 
     override fun bottomStateChanged(state: Int) {
-        if (keyboardHide) {
+        if (!bottomViewHide) {
             when (state) {
                 BottomSheetBehavior.STATE_HIDDEN -> {
                     view.setBottomSheetState(BottomState.Small)

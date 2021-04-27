@@ -15,11 +15,16 @@ class Auth(context: Context) {
     val UserUUID = DataHandler(context).getUserUUID() ?: ""
 }
 
-class Body(query: String) {
+class Query(query: String) {
     var Query = query
 }
 
 class Params {
     val Compress = "GZip"
     val Language = "RU"
+}
+
+class DeliveryCalc(type: DeliveryType, locations: List<OrderLocation>) {
+    val Type = type.toString()
+    val Locations = locations
 }

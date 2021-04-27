@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.egorka.delivery.R
-import com.egorka.delivery.entities.Suggestion
+import com.egorka.delivery.entities.Dictionary.Suggestion
 
 open class AddressAdapter(val myCallback: (address: Suggestion) -> Unit) : RecyclerView.Adapter<AddressAdapter.MyViewHolder>() {
 

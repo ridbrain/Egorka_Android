@@ -31,6 +31,7 @@
                     android:id="@+id/typeImage"
                     android:layout_width="@dimen/_70sdp"
                     android:layout_height="@dimen/_70sdp"
+                    android:padding="@dimen/_3sdp"
                     android:src="@drawable/ic_leg"
                     app:tint="@color/colorAccent"
                     tools:ignore="ContentDescription"/>

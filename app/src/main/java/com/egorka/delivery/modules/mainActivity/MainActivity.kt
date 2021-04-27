@@ -2,6 +2,8 @@ package com.egorka.delivery.modules.mainActivity
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -13,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.egorka.delivery.R
 import com.egorka.delivery.adapters.AddressAdapter
 import com.egorka.delivery.adapters.DeliveryType
-import com.egorka.delivery.adapters.TypeDelivery
 import com.egorka.delivery.delegates.EditTextWatcher
-import com.egorka.delivery.entities.Suggestion
+import com.egorka.delivery.entities.Delivery
+import com.egorka.delivery.entities.Dictionary.Suggestion
 import com.egorka.delivery.handlers.BottomSheetHandler
 import com.egorka.delivery.handlers.GoogleMapHandler
 import com.egorka.delivery.services.BottomState
@@ -203,8 +205,10 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
 
         presenter?.didRouteLaid()
 
-        mapDelegate?.animateCamera(cameraPosition)
-        mapNotify = false
+        Handler(Looper.getMainLooper()).postDelayed({
+            mapDelegate?.animateCamera(cameraPosition)
+            mapNotify = false
+        }, 300)
 
     }
 
@@ -297,7 +301,7 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
 
     }
 
-    override fun updateTypeAdapter(types: List<TypeDelivery>) {
+    override fun updateTypeAdapter(types: List<Delivery>) {
         typeAdapter?.types = types
         typeAdapter?.notifyDataSetChanged()
     }

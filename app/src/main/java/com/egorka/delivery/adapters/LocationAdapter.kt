@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.egorka.delivery.R
 import com.egorka.delivery.entities.LocationType
-import com.egorka.delivery.entities.NewOrderLocation
+import com.egorka.delivery.entities.OrderLocation
 
 enum class NumState {
     Lite,
@@ -21,8 +21,8 @@ enum class NumState {
 class LocationAdapter(
     val context: Activity,
     var numState: NumState,
-    val locations: MutableList<NewOrderLocation>,
-    val callback: (NewOrderLocation, Int, View) -> Unit): RecyclerView.Adapter<LocationAdapter.MyViewHolder>() {
+    val locations: MutableList<OrderLocation>,
+    val callback: (OrderLocation, Int, View) -> Unit): RecyclerView.Adapter<LocationAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var addressLabel: TextView = itemView.findViewById(R.id.addressLabel)
@@ -43,6 +43,8 @@ class LocationAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val location = locations[position]
+
+        holder.itemView.setOnClickListener { callback(location, position, holder.numLabel) }
 
         when (location.Type) {
             LocationType.Pickup -> {
@@ -86,8 +88,6 @@ class LocationAdapter(
             holder.detailsLabel.setTextColor(ContextCompat.getColor(context, R.color.colorGrayDark))
 
         }
-
-        holder.itemView.setOnClickListener { callback(location, position, holder.numLabel) }
 
     }
 

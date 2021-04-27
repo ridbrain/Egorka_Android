@@ -13,21 +13,20 @@ class CurrentOrderPresenter(override var view: CurrentOrderActivityInterface): C
 
     override fun onStart() {
 
-        mainService?.mainModel?.let { model ->
-
-            if (model.pickups == null) { return }
-            if (model.drops == null) { return }
-
-            val locations = mutableListOf(model.pickups!!.first(), model.drops!!.first())
-
-            GoogleMapHandler(view.getContext()).getRoute(locations.first().Point!!, locations.last().Point!!) {
-                view.setPolyline(it)
-            }
-
-            view.updateAdapter(locations, NumState.Full)
-
-        }
-
+//        mainService?.mainModel?.let { model ->
+//
+//            if (model.pickups == null) { return }
+//            if (model.drops == null) { return }
+//
+//            val locations = mutableListOf(model.pickups!!.first(), model.drops!!.first())
+//
+//            GoogleMapHandler(view.getContext()).getRoute(locations.first().Point!!, locations.last().Point!!) {
+//                view.setPolyline(it)
+//            }
+//
+//            view.updateAdapter(locations, NumState.Full)
+//
+//        }
 
     }
 

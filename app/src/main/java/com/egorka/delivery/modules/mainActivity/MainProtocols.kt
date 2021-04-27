@@ -1,8 +1,8 @@
 package com.egorka.delivery.modules.mainActivity
 
 import android.app.Activity
-import com.egorka.delivery.adapters.TypeDelivery
-import com.egorka.delivery.entities.Suggestion
+import com.egorka.delivery.entities.Delivery
+import com.egorka.delivery.entities.Dictionary.Suggestion
 import com.egorka.delivery.services.BottomState
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -32,7 +32,7 @@ interface MainActivityInterface {
     fun changeIconFirstField(edit: Boolean)
     fun showIconSecondField(show: Boolean)
     fun showWarning()
-    fun updateTypeAdapter(types: List<TypeDelivery>)
+    fun updateTypeAdapter(types: List<Delivery>)
     fun clearFocus()
 
 }
@@ -55,7 +55,7 @@ interface MainPresenterInterface {
     fun didRouteLaid()
     fun pressPickupFieldButton()
     fun pressDropFieldButton()
-    fun selectTypeDelivery(type: Int)
+    fun selectTypeDelivery(type: Delivery)
 
 }
 

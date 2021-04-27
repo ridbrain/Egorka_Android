@@ -6,15 +6,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.egorka.delivery.R
+import com.egorka.delivery.entities.Delivery
 
-class TypeDelivery(var type: Int, var descr: String, var price: Float, var image: Int)
+class TypeData(type: com.egorka.delivery.entities.DeliveryType) {
 
-class DeliveryType(var didDeselectItem: (Int) -> Unit) : RecyclerView.Adapter<DeliveryType.TypeDeliveryView>() {
+    var icon: Int? = null
+    var label: String? = null
 
-    var types: List<TypeDelivery> = ArrayList()
+    init {
+        when (type) {
+            com.egorka.delivery.entities.DeliveryType.Car -> {
+                icon = R.drawable.ic_car
+                label = "Легковой"
+            }
+            com.egorka.delivery.entities.DeliveryType.Walk -> {
+                icon = R.drawable.ic_leg
+                label = "Пеший"
+            }
+        }
+    }
+
+}
+
+class DeliveryType(var didDeselectItem: (Delivery) -> Unit) : RecyclerView.Adapter<DeliveryType.TypeDeliveryView>() {
+
+    var types: List<Delivery> = ArrayList()
 
     class TypeDeliveryView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var txtName: TextView = itemView.findViewById(R.id.typeName)
@@ -30,12 +48,13 @@ class DeliveryType(var didDeselectItem: (Int) -> Unit) : RecyclerView.Adapter<De
     override fun onBindViewHolder(holder: TypeDeliveryView, position: Int) {
 
         val type = types[position]
+        val data = TypeData(type.Type!!)
 
-        holder.txtName.text = type.descr
-        holder.txtPrice.text = "${type.price} ₽"
-        holder.image.setImageResource(type.image)
+        holder.txtName.text = data.label
+        holder.txtPrice.text = "${type.Result?.TotalPrice?.Total?.div(100)} ₽"
+        holder.image.setImageResource(data.icon!!)
 
-        holder.itemView.setOnClickListener { didDeselectItem(type.type) }
+        holder.itemView.setOnClickListener { didDeselectItem(type) }
 
     }
 
