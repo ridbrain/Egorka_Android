@@ -12,6 +12,7 @@ class MainMenu(val context: Activity, private val drawer: DrawerLayout) {
         when (button) {
             R.id.currentOrder -> { GeneralRouter(context).openCurrentOrder() }
             R.id.about -> { GeneralRouter(context).openAboutActivity() }
+            R.id.marketplaces -> { GeneralRouter(context).openMarketplace() }
         }
 
         drawer.closeDrawers()

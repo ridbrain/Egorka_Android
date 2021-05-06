@@ -8,6 +8,9 @@
                 android:id="@+id/currentOrder"
                 android:title="@string/currentOrder"/>
         <item
+                android:id="@+id/marketplaces"
+                android:title="@string/marketplaces"/>
+        <item
                 android:id="@+id/about"
                 android:title="@string/menu_about"/>
     </group>

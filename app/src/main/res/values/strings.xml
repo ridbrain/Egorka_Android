@@ -24,6 +24,7 @@
     <string name="close">Закрыть</string>
     <string name="open">Открыть</string>
     <string name="currentOrder">Текущий заказ</string>
+    <string name="marketplaces">Маркетплейсы</string>
     <string name="orderPickup">Отправитель</string>
     <string name="orderDrop">Получатель</string>
     <string name="addPickupText">Добавить отправителя</string>
@@ -42,4 +43,11 @@
     <string name="coinDelivery">Ценность вашего груза?</string>
     <string name="hintCoinDelivery">До 100000 ₽</string>
     <string name="update">Обновить</string>
+    <string name="deliveryMarketplace">Доставка до маркетплейса</string>
+    <string name="howItWork">Как это работает?</string>
+    <string name="yourContacts">Ваши контакты</string>
+    <string name="countBox">Кол-во коробок?</string>
+    <string name="countPallet">Кол-во паллет?</string>
+    <string name="sizeOfBox">Укажите размеры и вес коробок</string>
+    <string name="dateHint">Оформить доставку до Маркетплейса на завтра можно строго до 15:00.</string>
 </resources>

@@ -8,7 +8,7 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
-class LocationHandler(private val context: Activity, private val callBack: (Location) -> Unit) {
+class LocationHandler(private val context: Activity, private val callBack: () -> Unit) {
 
     var code = 8899
     var location: Location? = null
@@ -38,8 +38,7 @@ class LocationHandler(private val context: Activity, private val callBack: (Loca
         } else {
 
             providerClient?.lastLocation?.addOnCompleteListener { location ->
-                this.location = location.result
-                this.location?.let(callBack)
+                this.location = location.result; callBack()
             }
 
         }

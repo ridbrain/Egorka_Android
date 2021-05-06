@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/colorBackground"
+        tools:context=".modules.marketplaceActivity.MarketplaceActivity">
+
+    <FrameLayout style="@style/MyActionBar">
+
+        <TextView
+                style="@style/MyActionTitle"
+                android:text="@string/newOrder"/>
+
+        <TextView
+                style="@style/MyActionRightText"
+                android:id="@+id/cancelButton"
+                android:text="@string/cancel"/>
+
+    </FrameLayout>
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:id="@+id/rootView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/_150sdp"
+                android:orientation="vertical">
+
+            <TextView
+                    style="@style/GrayLabel"
+                    android:text="@string/deliveryMarketplace"
+                    android:layout_marginStart="0dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorBlack"/>
+
+            <TextView
+                    style="@style/ActionButton"
+                    android:id="@+id/howItWorkButton"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:text="@string/howItWork"
+                    tools:ignore="RtlHardcoded"/>
+
+            <TextView
+                    style="@style/GrayLabel"
+                    android:text="@string/pickupHintText"/>
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_10sdp">
+
+                <EditText
+                        style="@style/EditText"
+                        android:id="@+id/pickupEditText"
+                        android:paddingStart="@dimen/_30sdp"
+                        android:paddingEnd="@dimen/_40sdp"
+                        android:importantForAutofill="no"
+                        tools:ignore="LabelFor"/>
+
+                <View
+                        style="@style/Ring"
+                        android:layout_gravity="center|left"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+                        tools:ignore="RtlHardcoded"/>
+
+                <ImageView
+                        android:id="@+id/pickupFieldButton"
+                        android:layout_width="@dimen/_40sdp"
+                        android:padding="@dimen/_12sdp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_cross_hair"
+                        android:layout_gravity="right|center"
+                        tools:ignore="ContentDescription,RtlHardcoded"/>
+
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/suggestionsRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:visibility="gone" />
+
+            <LinearLayout
+                    android:id="@+id/marketplaceView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        style="@style/GrayLabel"
+                        android:text="@string/notRequired" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        tools:ignore="RtlSymmetry">
+
+                    <EditText
+                            style="@style/EditText"
+                            android:id="@+id/entranceField"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:padding="@dimen/_10sdp"
+                            android:hint="@string/entrance"
+                            android:inputType="number"
+                            tools:ignore="Autofill,InefficientWeight"/>
+
+                    <EditText
+                            style="@style/EditText"
+                            android:id="@+id/floorField"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:padding="@dimen/_10sdp"
+                            android:hint="@string/floor"
+                            android:inputType="number"
+                            tools:ignore="Autofill"/>
+
+                    <EditText
+                            style="@style/EditText"
+                            android:id="@+id/roomField"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:padding="@dimen/_10sdp"
+                            android:hint="@string/office"
+                            android:inputType="number"
+                            tools:ignore="Autofill"/>
+
+                </LinearLayout>
+
+                <TextView
+                        style="@style/GrayLabel"
+                        android:text="@string/dropHintText"/>
+
+                <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_10sdp">
+
+                    <TextView
+                            style="@style/EditText"
+                            android:id="@+id/dropEditText"
+                            android:paddingStart="@dimen/_30sdp"
+                            android:paddingEnd="@dimen/_40sdp"
+                            android:importantForAutofill="no"
+                            android:gravity="center|left"
+                            tools:ignore="LabelFor"/>
+
+                    <View
+                            style="@style/Ring"
+                            android:layout_gravity="center|left"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/background_round_blue"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+                            tools:ignore="RtlHardcoded"/>
+
+                    <ImageView
+                            android:id="@+id/dropFieldButton"
+                            android:layout_width="@dimen/_40sdp"
+                            android:padding="@dimen/_12sdp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_map"
+                            android:layout_gravity="right|center"
+                            tools:ignore="ContentDescription,RtlHardcoded"/>
+
+                </FrameLayout>
+
+                <TextView
+                        style="@style/GrayLabel"
+                        android:text="@string/timeStart"/>
+
+                <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_10sdp">
+
+                    <EditText
+                            style="@style/EditText"
+                            android:id="@+id/dateEditText"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingEnd="@dimen/_40sdp"
+                            android:importantForAutofill="no"
+                            tools:ignore="LabelFor,TextFields"/>
+
+                    <ImageView
+                            android:id="@+id/dateFieldButton"
+                            android:layout_width="@dimen/_40sdp"
+                            android:padding="@dimen/_12sdp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_info"
+                            android:layout_gravity="right|center"
+                            tools:ignore="ContentDescription,RtlHardcoded"/>
+
+                </FrameLayout>
+
+                <TextView
+                        style="@style/ActionButton"
+                        android:text="@string/dateHint"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:textColor="@color/colorGrayDark"
+                        android:textAlignment="textStart"
+                        tools:ignore="RtlHardcoded"/>
+
+                <TextView
+                        style="@style/GrayLabel"
+                        android:text="@string/yourContacts" />
+
+                <EditText
+                        style="@style/EditText"
+                        android:id="@+id/nameField"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:hint="@string/hintOfName"
+                        tools:ignore="Autofill"/>
+
+                <EditText
+                        style="@style/EditText"
+                        android:id="@+id/phoneField"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:hint="+7 (999) 888-77-66"
+                        android:inputType="phone"
+                        tools:ignore="Autofill,HardcodedText"/>
+
+                <TextView
+                        style="@style/GrayLabel"
+                        android:text="@string/countBox" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginRight="@dimen/_10sdp">
+
+                        <TextView
+                                style="@style/EditText"
+                                android:id="@+id/boxEditText"
+                                android:paddingStart="@dimen/_10sdp"
+                                android:paddingEnd="@dimen/_40sdp"
+                                android:importantForAutofill="no"
+                                tools:ignore="LabelFor,TextFields"/>
+
+                        <ImageView
+                                android:id="@+id/boxFieldButton"
+                                android:layout_width="@dimen/_40sdp"
+                                android:padding="@dimen/_12sdp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_info"
+                                android:layout_gravity="right|center"
+                                tools:ignore="ContentDescription,RtlHardcoded"/>
+
+                    </FrameLayout>
+
+                    <SeekBar
+                            android:id="@+id/boxSeekBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_gravity="center"
+                            android:layout_weight="3"/>
+
+                </LinearLayout>
+
+                <TextView
+                        style="@style/GrayLabel"
+                        android:text="@string/countPallet" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginRight="@dimen/_10sdp">
+
+                        <TextView
+                                style="@style/EditText"
+                                android:id="@+id/palletEditText"
+                                android:paddingStart="@dimen/_10sdp"
+                                android:paddingEnd="@dimen/_40sdp"
+                                android:importantForAutofill="no"
+                                tools:ignore="LabelFor,TextFields"/>
+
+                        <ImageView
+                                android:id="@+id/palletFieldButton"
+                                android:layout_width="@dimen/_40sdp"
+                                android:padding="@dimen/_12sdp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_info"
+                                android:layout_gravity="right|center"
+                                tools:ignore="ContentDescription,RtlHardcoded"/>
+
+                    </FrameLayout>
+
+                    <SeekBar
+                            android:id="@+id/palletSeekBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_gravity="center"
+                            android:layout_weight="3"/>
+
+                </LinearLayout>
+
+                <TextView
+                        style="@style/GrayLabel"
+                        android:text="@string/sizeOfBox" />
+
+                <EditText
+                        style="@style/EditText"
+                        android:id="@+id/messageField"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:gravity="top|left"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:singleLine="false"
+                        tools:ignore="Autofill,LabelFor,RtlHardcoded"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/bottom_sheet_pay"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

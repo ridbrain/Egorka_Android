@@ -12,6 +12,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+import java.util.ArrayList
 
 interface RestApi {
 
@@ -31,6 +32,11 @@ interface RestApi {
     fun getSuggestions(
         @Body param: Parameters
     ): Call<Dictionary>
+
+    @POST("service/delivery/dictionary/")
+    fun getMarketplaces(
+        @Body param: Parameters
+    ): Call<Marketplaces>
 
     @POST("service/delivery/")
     fun getDelivery(
@@ -115,6 +121,20 @@ class NetworkHandler(val context: Activity) {
             google.body()?.routes?.let { routes ->
                 if (routes.isNotEmpty()) {
                     callback(routes[0])
+                }
+            }
+        })
+
+    }
+
+    fun getMarketPlaces(callBack: (List<Marketplaces.MarketplacesPoint>) -> Unit) {
+
+        val param = Parameters(context, "Marketplace", ArrayList<String>(), Params())
+
+        getClient().getMarketplaces(param).enqueue(Request<Marketplaces>(context) {
+            it.body()?.Result?.Points?.let { points ->
+                if (points.isNotEmpty()) {
+                    callBack(points)
                 }
             }
         })

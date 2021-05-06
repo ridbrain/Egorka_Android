@@ -22,7 +22,6 @@ class MainPresenter(override var view: MainActivityInterface): MainPresenterInte
     private var pickup: OrderLocation? = null
     private var drop: OrderLocation? = null
 
-    private var myLocation = false
     private var routeLaid = false
     private var keyboardHide = true
 
@@ -34,10 +33,9 @@ class MainPresenter(override var view: MainActivityInterface): MainPresenterInte
             view.setBottomSheetState(BottomState.Small)
         }, 500)
 
-        locationHandler = LocationHandler(view.getContext()) { location ->
-            if (!myLocation) {
-                view.setMapRegion(LatLng(location.latitude,location.longitude))
-                myLocation = true
+        locationHandler = LocationHandler(view.getContext()) {
+            locationHandler?.location?.let {
+                view.setMapRegion(LatLng(it.latitude, it.longitude))
             }
         }
 

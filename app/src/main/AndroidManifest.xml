@@ -20,6 +20,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".modules.marketplaceActivity.MarketplaceActivity">
+        </activity>
         <activity android:name=".modules.aboutActivity.AboutActivity">
         </activity>
         <activity
@@ -65,7 +67,6 @@
                 android:enabled="true"
                 android:exported="true"
                 tools:ignore="ExportedService"/>
-
         <service
                 android:name=".services.NotificationService"
                 android:enabled="true"
@@ -73,7 +74,7 @@
                 android:permission="TODO"
                 android:stopWithTask="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
@@ -85,7 +86,7 @@
                 android:value="@string/map_key"/>
         <meta-data
                 android:name="com.google.android.gms.wallet.api.enabled"
-                android:value="true" />
+                android:value="true"/>
     </application>
 
 </manifest>

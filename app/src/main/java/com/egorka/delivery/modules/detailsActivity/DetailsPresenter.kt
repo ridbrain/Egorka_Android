@@ -81,6 +81,7 @@ class DetailsPresenter(override val view: DetailsActivityInterface): DetailsPres
     }
 
     override fun onBackPressed() {
+        view.getContext().hideKeyboard()
         view.clearNumView()
         saveDetails()
     }

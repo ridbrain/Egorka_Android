@@ -35,8 +35,6 @@ class NewOrderActivity: AppCompatActivity(), NewOrderActivityInterface {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_order)
 
-        presenter = NewOrderPresenter(this)
-
         cancelButton.setOnClickListener { onBackPressed() }
 
         pickupRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -62,6 +60,8 @@ class NewOrderActivity: AppCompatActivity(), NewOrderActivityInterface {
         coinField.setOnClickListener { presenter?.hideBottomView() }
 
         rootView.setOnClickListener { presenter?.hideKeyboard() }
+
+        presenter = NewOrderPresenter(this)
 
     }
 

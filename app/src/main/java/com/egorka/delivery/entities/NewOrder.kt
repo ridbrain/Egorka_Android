@@ -21,9 +21,46 @@ class Dictionary {
 
 }
 
+class Marketplaces {
+
+    var Time: String? = null
+    var TimeStamp: Int? = null
+    var Execution: Float? = null
+    var Method: String? = null
+    var Result: MarketplacesResult? = null
+
+    class MarketplacesResult {
+        var Cached: Boolean? = null
+        var Points: List<MarketplacesPoint>? = null
+    }
+
+    class MarketplacesPoint {
+
+        var ID: String? = null
+        var Code: String? = null
+        var Latitude: Double? = null
+        var Longitude: Double? = null
+        var Name: List<MarketplacesName>? = null
+        var Address: List<MarketplacesAddress>? = null
+
+        class MarketplacesName {
+            var Name: String? = null
+            var Language: String? = null
+        }
+
+        class MarketplacesAddress {
+            var Address: String? = null
+            var Language: String? = null
+        }
+
+    }
+
+}
+
 class Point {
 
     var Address: String? = null
+    var Name: String? = null
     var Code: String? = null
     var Latitude: Double? = null
     var Longitude: Double? = null
@@ -33,30 +70,47 @@ class Point {
 
 }
 
-class OrderLocation(routeOrder: Int?, type: LocationType?, suggestion: Dictionary.Suggestion) {
+class OrderLocation {
 
     var ID: String? = null
-    var Key: String? = null
     var Date: String? = null
-    var Type: LocationType? = type
+    var Type: LocationType? = null
     var Route: Int? = null
     var RouteOrder: Int? = null
     var Point: Point? = null
     var Contact: Contact? = null
     var Message: String? = null
 
-    init {
+    constructor(marketplace: Marketplaces.MarketplacesPoint, routeOrder: Int?) {
+
+        val point = Point()
+        point.Address = marketplace.Address?.get(0)?.Address
+        point.Code = marketplace.Code
+        point.Latitude = marketplace.Latitude
+        point.Longitude = marketplace.Longitude
+        point.Name = marketplace.Name?.get(0)?.Name
+
+        ID = "${LocationType.Drop}-${routeOrder}"
+        Route = 1
+        RouteOrder = routeOrder
+        Point = point
+        Message = ""
+        Type = LocationType.Drop
+
+    }
+
+    constructor(routeOrder: Int?, type: LocationType?, suggestion: Dictionary.Suggestion) {
 
         val point = suggestion.Point
         point?.Code = suggestion.ID
         point?.Address = suggestion.Name
 
-        ID = ""
-        Key = ""
+        ID = "${type}-${routeOrder}"
         Route = 1
         RouteOrder = routeOrder
         Point = point
         Message = ""
+        Type = type
 
     }
 
