@@ -81,6 +81,8 @@ class OrderLocation {
     var Contact: Contact? = null
     var Message: String? = null
 
+    constructor()
+
     constructor(marketplace: Marketplaces.MarketplacesPoint, routeOrder: Int?) {
 
         val point = Point()
@@ -195,5 +197,6 @@ enum class LocationType {
 
 enum class DeliveryType {
     Walk,
-    Car
+    Car,
+    Track
 }

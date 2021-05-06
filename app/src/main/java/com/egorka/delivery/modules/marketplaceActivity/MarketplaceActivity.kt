@@ -1,23 +1,41 @@
 package com.egorka.delivery.modules.marketplaceActivity
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.NumberPicker
+import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.egorka.delivery.R
+import com.egorka.delivery.adapters.AddressAdapter
+import com.egorka.delivery.adapters.TypeData
+import com.egorka.delivery.delegates.EditTextWatcher
+import com.egorka.delivery.entities.Delivery
+import com.egorka.delivery.entities.Dictionary
 import com.egorka.delivery.entities.OrderLocation
 import com.egorka.delivery.handlers.BottomSheetHandler
 import com.egorka.delivery.services.BottomState
+import com.egorka.delivery.services.setAccentColorButton
+import com.egorka.delivery.services.setPhoneMask
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_marketplace.*
+import kotlinx.android.synthetic.main.activity_marketplace.rootView
+import kotlinx.android.synthetic.main.activity_marketplace.suggestionsRecycler
 import kotlinx.android.synthetic.main.bottom_sheet_pay.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MarketplaceActivity : AppCompatActivity(), MarketplaceActivityInterface {
 
     private var presenter: MarketplacePresenterInterface? = null
     private var bottomSheet: BottomSheetBehavior<LinearLayout>? = null
+    private var addressAdapter: AddressAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +48,44 @@ class MarketplaceActivity : AppCompatActivity(), MarketplaceActivityInterface {
         palletFieldButton.setOnClickListener { pressPalletInfo() }
         dropEditText.setOnClickListener { presenter?.pressPlaces() }
         rootView.setOnClickListener { presenter?.hideKeyboard() }
+        pickupEditText.addTextChangedListener(EditTextWatcher { presenter?.textDidChange(it) })
+        pickupEditText.setOnFocusChangeListener { _, isFocused -> if (isFocused) presenter?.selectTextField() }
+        pickupEditText.setOnClickListener { presenter?.selectTextField() }
+        pickupFieldButton.setOnClickListener { presenter?.pressMyLocation() }
+        dateEditText.setOnClickListener { presenter?.pressDate() }
+        dropFieldButton.setOnClickListener { presenter?.openMarketMap() }
+
+        palletSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) { }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) { }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                seekBar?.progress?.let {
+                    presenter?.palletCountChange(it)
+                }
+            }
+        })
+
+        boxSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) { }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) { }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                seekBar?.progress?.let {
+                    presenter?.boxCountChange(it)
+                }
+            }
+        })
+
+        phoneField.setPhoneMask()
 
         bottomSheet = BottomSheetBehavior.from(bottomSheetPay)
         bottomSheet?.isHideable = true
         bottomSheet?.state = BottomSheetBehavior.STATE_HIDDEN
         bottomSheet?.addBottomSheetCallback(BottomSheetHandler { presenter?.bottomStateChanged(it) })
+
+        addressAdapter = AddressAdapter { presenter?.selectAddress(it) }
+
+        suggestionsRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        suggestionsRecycler.adapter = addressAdapter
 
         presenter = MarketplacePresenter(this)
 
@@ -162,8 +213,67 @@ class MarketplaceActivity : AppCompatActivity(), MarketplaceActivityInterface {
 
     }
 
+    override fun setPickupLabel(text: String) {
+        pickupEditText.setText(text)
+    }
+
     override fun setPlaceLabel(text: String) {
-        dropEditText.setText(text)
+        dropEditText.text = text
+    }
+
+    override fun setSuggestions(suggestion: List<Dictionary.Suggestion>) {
+        addressAdapter?.suggestions = suggestion
+        addressAdapter?.notifyDataSetChanged()
+    }
+
+    override fun setFocus(size: Int) {
+        pickupEditText.requestFocus()
+        pickupEditText.setSelection(size)
+    }
+
+    override fun deleteFocus() {
+        pickupEditText.clearFocus()
+    }
+
+    override fun showSuggestions(show: Boolean) {
+        suggestionsRecycler.isVisible = show
+        marketplaceView.isVisible = !show
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun setInfoFields(type: TypeData, price: Delivery.TotalPrice) {
+
+        typeLabel.text = type.label
+        typeImage.setImageResource(type.icon!!)
+        priceLabel.text = "${price.Total?.div(100)} ₽"
+
+    }
+
+    override fun hideBottomSheet() {
+        bottomSheet?.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
+    override fun showDatePicker(calendar: Calendar) {
+
+        val datePickerDialog = DatePickerDialog(this, R.style.DatePicker, { _, year, month, day ->
+            presenter?.setDate(year, month, day)
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) )
+
+        datePickerDialog.show()
+        datePickerDialog.setAccentColorButton()
+
+    }
+
+    override fun setDate(text: String) {
+        dateEditText.text = text
+    }
+
+    override fun setBoxLabel(text: String) {
+        boxEditText.text = text
+    }
+
+    override fun setPalletLabel(text: String) {
+        palletEditText.text = text
     }
 
 }

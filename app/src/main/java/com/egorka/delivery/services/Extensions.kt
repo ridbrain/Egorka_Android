@@ -13,9 +13,14 @@ import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.egorka.delivery.R
+import kotlinx.android.synthetic.main.activity_details.*
+import ru.tinkoff.decoro.MaskImpl
+import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
+import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -113,4 +118,9 @@ fun Calendar.hoursMinutes(): String {
 @SuppressLint("SimpleDateFormat")
 fun Calendar.iso(): String {
     return SimpleDateFormat().setup("yyyy-MM-dd'T'HH:mm:ssZ", this.timeZone).format(this.time)
+}
+
+fun EditText.setPhoneMask() {
+    val formatWatcher = MaskFormatWatcher(MaskImpl.createTerminated(UnderscoreDigitSlotsParser().parseSlots("+7 (___) ___-__-__")))
+    formatWatcher.installOn(this)
 }

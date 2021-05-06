@@ -20,6 +20,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".modules.marketMap.MarketMapActivity">
+        </activity>
         <activity android:name=".modules.marketplaceActivity.MarketplaceActivity">
         </activity>
         <activity android:name=".modules.aboutActivity.AboutActivity">

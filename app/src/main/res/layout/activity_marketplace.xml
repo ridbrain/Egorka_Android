@@ -162,7 +162,7 @@
                             android:paddingEnd="@dimen/_40sdp"
                             android:importantForAutofill="no"
                             android:gravity="center|left"
-                            tools:ignore="LabelFor"/>
+                            tools:ignore="LabelFor,RtlHardcoded"/>
 
                     <View
                             style="@style/Ring"
@@ -196,13 +196,14 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginRight="@dimen/_10sdp">
 
-                    <EditText
+                    <TextView
                             style="@style/EditText"
                             android:id="@+id/dateEditText"
                             android:paddingStart="@dimen/_10sdp"
                             android:paddingEnd="@dimen/_40sdp"
                             android:importantForAutofill="no"
-                            tools:ignore="LabelFor,TextFields"/>
+                            android:gravity="center|left"
+                            tools:ignore="LabelFor,RtlHardcoded,TextFields"/>
 
                     <ImageView
                             android:id="@+id/dateFieldButton"
@@ -273,6 +274,8 @@
                                 android:paddingStart="@dimen/_10sdp"
                                 android:paddingEnd="@dimen/_40sdp"
                                 android:importantForAutofill="no"
+                                android:text="0"
+                                android:gravity="center|left"
                                 tools:ignore="LabelFor,TextFields"/>
 
                         <ImageView
@@ -289,10 +292,11 @@
                     <SeekBar
                             android:id="@+id/boxSeekBar"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/_30sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:layout_gravity="center"
-                            android:layout_weight="3"/>
+                            android:layout_weight="3"
+                            android:max="50"/>
 
                 </LinearLayout>
 
@@ -319,7 +323,9 @@
                                 android:paddingStart="@dimen/_10sdp"
                                 android:paddingEnd="@dimen/_40sdp"
                                 android:importantForAutofill="no"
-                                tools:ignore="LabelFor,TextFields"/>
+                                android:text="0"
+                                android:gravity="center|left"
+                                tools:ignore="LabelFor,RtlHardcoded,TextFields"/>
 
                         <ImageView
                                 android:id="@+id/palletFieldButton"
@@ -335,10 +341,11 @@
                     <SeekBar
                             android:id="@+id/palletSeekBar"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/_30sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:layout_gravity="center"
-                            android:layout_weight="3"/>
+                            android:layout_weight="3"
+                            android:max="50"/>
 
                 </LinearLayout>
 

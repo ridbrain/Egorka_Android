@@ -15,6 +15,7 @@ import com.egorka.delivery.modules.currentOrderActivity.CurrentOrderActivity
 import com.egorka.delivery.modules.detailsActivity.DetailsActivity
 import com.egorka.delivery.modules.errorActivity.ErrorActivity
 import com.egorka.delivery.modules.mainActivity.MainActivity
+import com.egorka.delivery.modules.marketMap.MarketMapActivity
 import com.egorka.delivery.modules.marketplaceActivity.MarketplaceActivity
 import com.egorka.delivery.modules.newOrderActivity.NewOrderActivity
 
@@ -92,6 +93,12 @@ class GeneralRouter(val context: Activity) {
     fun openMarketplace() {
 
         context.startActivity(Intent(context, MarketplaceActivity::class.java))
+
+    }
+
+    fun openMapActivity() {
+
+        context.startActivity(Intent(context, MarketMapActivity::class.java))
 
     }
 

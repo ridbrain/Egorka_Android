@@ -25,6 +25,10 @@ class TypeData(type: com.egorka.delivery.entities.DeliveryType) {
                 icon = R.drawable.ic_leg
                 label = "Пеший"
             }
+            com.egorka.delivery.entities.DeliveryType.Track -> {
+                icon = R.drawable.ic_track
+                label = "Грузовой"
+            }
         }
     }
 

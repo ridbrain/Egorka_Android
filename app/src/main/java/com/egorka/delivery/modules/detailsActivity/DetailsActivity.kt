@@ -14,11 +14,9 @@ import com.egorka.delivery.adapters.AddressAdapter
 import com.egorka.delivery.delegates.EditTextWatcher
 import com.egorka.delivery.entities.Dictionary.Suggestion
 import com.egorka.delivery.services.setAccentColorButton
+import com.egorka.delivery.services.setPhoneMask
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.activity_details.suggestionsRecycler
-import ru.tinkoff.decoro.MaskImpl
-import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
-import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 import java.util.*
 
 class DetailsActivity: AppCompatActivity(), DetailsActivityInterface {
@@ -34,8 +32,7 @@ class DetailsActivity: AppCompatActivity(), DetailsActivityInterface {
 
         backButton.setOnClickListener { onBackPressed() }
 
-        val formatWatcher = MaskFormatWatcher(MaskImpl.createTerminated(UnderscoreDigitSlotsParser().parseSlots("+7 (___) ___-__-__")))
-        formatWatcher.installOn(phoneField)
+        phoneField.setPhoneMask()
 
         needNowCheckBox.setOnClickListener { presenter?.setQuickly(needNowCheckBox.isChecked) }
         dateField.setOnClickListener { presenter?.pressDate() }
