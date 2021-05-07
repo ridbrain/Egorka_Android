@@ -206,15 +206,19 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
         presenter?.didRouteLaid()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            mapDelegate?.animateCamera(cameraPosition)
-            mapNotify = false
+            cameraPosition?.let {
+                mapDelegate?.animateCamera(it)
+                mapNotify = false
+            }
         }, 300)
 
     }
 
     override fun defaultAnimateCamera() {
-        mapDelegate?.animateCamera(cameraPosition)
-        mapNotify = false
+        cameraPosition?.let {
+            mapDelegate?.animateCamera(it)
+            mapNotify = false
+        }
     }
 
     override fun setFocus(field: FocusState, size: Int) {
