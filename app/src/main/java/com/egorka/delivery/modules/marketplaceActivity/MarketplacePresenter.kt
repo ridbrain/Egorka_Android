@@ -30,11 +30,15 @@ class MarketplacePresenter(private val view: MarketplaceActivityInterface): Mark
     override fun onResume() {
 
         locationHandler = LocationHandler(view.getContext()) {
-            pressMyLocation()
+            findMyLocation()
         }
 
         NetworkHandler(view.getContext()).getMarketPlaces {
             buildPlaces(it)
+        }
+
+        mainService?.mainModel?.selectMarketplace?.let {
+            selectPlace(it)
         }
 
     }
@@ -66,12 +70,21 @@ class MarketplacePresenter(private val view: MarketplaceActivityInterface): Mark
     }
 
     override fun hideKeyboard() {
+        view.changeIconFirstField(false)
         view.showSuggestions(false)
         view.getContext().hideKeyboard()
         calculateDelivery()
     }
 
-    override fun pressMyLocation() {
+    override fun pressAddressButton() {
+        if (view.addressFieldFocused()){
+            view.clearAddressField()
+        } else {
+            findMyLocation()
+        }
+    }
+
+    private fun findMyLocation() {
         locationHandler?.location?.let {
             GoogleMapHandler(view.getContext()).getAddress(LatLng(it.latitude, it.longitude)) { address ->
                 NetworkHandler(view.getContext()).searchAddress(address) { suggestions ->
@@ -97,6 +110,7 @@ class MarketplacePresenter(private val view: MarketplaceActivityInterface): Mark
     override fun selectTextField() {
         view.showSuggestions(true)
         view.hideBottomSheet()
+        view.changeIconFirstField(true)
     }
 
     override fun textDidChange(text: String) {

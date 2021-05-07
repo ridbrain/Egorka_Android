@@ -5,6 +5,7 @@ interface MainModelInterface {
     var details: OrderLocation?
     var detailsIndex: Int?
     var marketplaces: List<OrderLocation>?
+    var selectMarketplace: OrderLocation?
 }
 
 class MainModel: MainModelInterface {
@@ -12,4 +13,5 @@ class MainModel: MainModelInterface {
     override var details: OrderLocation? = null
     override var detailsIndex: Int? = null
     override var marketplaces: List<OrderLocation>? = null
+    override var selectMarketplace: OrderLocation? = null
 }

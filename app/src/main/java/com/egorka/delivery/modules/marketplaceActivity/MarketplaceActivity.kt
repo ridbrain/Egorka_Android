@@ -6,9 +6,9 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.NumberPicker
-import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,11 +20,16 @@ import com.egorka.delivery.entities.Delivery
 import com.egorka.delivery.entities.Dictionary
 import com.egorka.delivery.entities.OrderLocation
 import com.egorka.delivery.handlers.BottomSheetHandler
+import com.egorka.delivery.handlers.SeekBarHandler
 import com.egorka.delivery.services.BottomState
 import com.egorka.delivery.services.setAccentColorButton
 import com.egorka.delivery.services.setPhoneMask
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_marketplace.*
+import kotlinx.android.synthetic.main.activity_marketplace.dropEditText
+import kotlinx.android.synthetic.main.activity_marketplace.dropFieldButton
+import kotlinx.android.synthetic.main.activity_marketplace.pickupEditText
+import kotlinx.android.synthetic.main.activity_marketplace.pickupFieldButton
 import kotlinx.android.synthetic.main.activity_marketplace.rootView
 import kotlinx.android.synthetic.main.activity_marketplace.suggestionsRecycler
 import kotlinx.android.synthetic.main.bottom_sheet_pay.*
@@ -51,29 +56,12 @@ class MarketplaceActivity : AppCompatActivity(), MarketplaceActivityInterface {
         pickupEditText.addTextChangedListener(EditTextWatcher { presenter?.textDidChange(it) })
         pickupEditText.setOnFocusChangeListener { _, isFocused -> if (isFocused) presenter?.selectTextField() }
         pickupEditText.setOnClickListener { presenter?.selectTextField() }
-        pickupFieldButton.setOnClickListener { presenter?.pressMyLocation() }
+        pickupFieldButton.setOnClickListener { presenter?.pressAddressButton() }
         dateEditText.setOnClickListener { presenter?.pressDate() }
         dropFieldButton.setOnClickListener { presenter?.openMarketMap() }
 
-        palletSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) { }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) { }
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                seekBar?.progress?.let {
-                    presenter?.palletCountChange(it)
-                }
-            }
-        })
-
-        boxSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) { }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) { }
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                seekBar?.progress?.let {
-                    presenter?.boxCountChange(it)
-                }
-            }
-        })
+        palletSeekBar.setOnSeekBarChangeListener(SeekBarHandler { presenter?.palletCountChange(it) })
+        boxSeekBar.setOnSeekBarChangeListener(SeekBarHandler { presenter?.boxCountChange(it) })
 
         phoneField.setPhoneMask()
 
@@ -89,6 +77,11 @@ class MarketplaceActivity : AppCompatActivity(), MarketplaceActivityInterface {
 
         presenter = MarketplacePresenter(this)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter?.onResume()
     }
 
     override fun onBackPressed() {
@@ -274,6 +267,24 @@ class MarketplaceActivity : AppCompatActivity(), MarketplaceActivityInterface {
 
     override fun setPalletLabel(text: String) {
         palletEditText.text = text
+    }
+
+    override fun changeIconFirstField(edit: Boolean) {
+        if (edit) {
+            pickupFieldButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_remove))
+        } else {
+            pickupFieldButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_cross_hair))
+        }
+    }
+
+    override fun addressFieldFocused(): Boolean {
+        return pickupEditText.isFocused
+    }
+
+    override fun clearAddressField() {
+        pickupEditText.setText("")
+        pickupEditText.requestFocus()
+        pickupEditText.setSelection(0)
     }
 
 }

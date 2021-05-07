@@ -5,7 +5,6 @@ import com.egorka.delivery.adapters.TypeData
 import com.egorka.delivery.entities.Delivery
 import com.egorka.delivery.entities.Dictionary
 import com.egorka.delivery.entities.OrderLocation
-import com.egorka.delivery.handlers.NetworkHandler
 import com.egorka.delivery.services.BottomState
 import java.util.*
 
@@ -26,6 +25,9 @@ interface MarketplaceActivityInterface {
     fun setDate(text: String)
     fun setBoxLabel(text: String)
     fun setPalletLabel(text: String)
+    fun changeIconFirstField(edit: Boolean)
+    fun addressFieldFocused(): Boolean
+    fun clearAddressField()
 
 }
 
@@ -34,7 +36,7 @@ interface MarketplacePresenterInterface {
     fun onResume()
     fun bottomStateChanged(state: Int)
     fun hideKeyboard()
-    fun pressMyLocation()
+    fun pressAddressButton()
     fun pressPlaces()
     fun selectPlace(location: OrderLocation)
     fun selectTextField()

@@ -17,6 +17,7 @@ class MarketMapPresenter(override var view: MarketMapActivityInterface) : Market
     }
 
     override fun selectLocation(location: OrderLocation) {
+        mainService?.mainModel?.selectMarketplace = location
         view.getContext().onBackPressed()
     }
 
