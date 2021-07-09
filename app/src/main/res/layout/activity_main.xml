@@ -31,7 +31,7 @@
                     android:layout_marginBottom="@dimen/_15sdp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_pin_pickup"
-                    tools:ignore="ContentDescription,MissingConstraints" />
+                    tools:ignore="ContentDescription,MissingConstraints,ImageContrastCheck" />
 
             <ImageView
                     android:id="@+id/menuButton"
@@ -40,7 +40,7 @@
                     android:src="@drawable/ic_menu"
                     android:layout_marginTop="@dimen/_37sdp"
                     android:layout_marginStart="@dimen/_15sdp"
-                    tools:ignore="ContentDescription"/>
+                    tools:ignore="ContentDescription,ImageContrastCheck,ImageContrastCheck" />
 
             <ImageView
                     android:id="@+id/logo"
@@ -52,6 +52,33 @@
                     android:layout_marginStart="@dimen/_50sdp"
                     tools:ignore="ContentDescription,MissingConstraints" />
 
+            <androidx.cardview.widget.CardView
+                    android:layout_width="@dimen/_95sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_marginTop="@dimen/_38sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_gravity="right"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="@dimen/_9sdp"
+                    tools:ignore="RtlHardcoded">
+
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:layout_gravity="center"
+                        android:src="@drawable/gradient"
+                        tools:ignore="ContentDescription" />
+
+                <TextView
+                        style="@style/ActionButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"
+                        android:layout_gravity="center"
+                        android:text="Маркетплейсы"/>
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

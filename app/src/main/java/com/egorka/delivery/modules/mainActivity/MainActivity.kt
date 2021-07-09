@@ -1,5 +1,6 @@
 package com.egorka.delivery.modules.mainActivity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
@@ -147,6 +148,7 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
         mapDelegate?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun setSuggestions(suggestion: List<Suggestion>) {
         addressAdapter?.suggestions = suggestion
         addressAdapter?.notifyDataSetChanged()
@@ -305,6 +307,7 @@ class MainActivity: AppCompatActivity(), MainActivityInterface, ActivityCompat.O
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun updateTypeAdapter(types: List<Delivery>) {
         typeAdapter?.types = types
         typeAdapter?.notifyDataSetChanged()

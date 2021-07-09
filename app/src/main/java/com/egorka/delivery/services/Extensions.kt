@@ -17,7 +17,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.egorka.delivery.R
-import kotlinx.android.synthetic.main.activity_details.*
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
@@ -49,6 +48,7 @@ fun Activity.showToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
 
+@Suppress("DEPRECATION")
 fun Activity.transparentStatusAndNavigation(systemUiScrim: Int = Color.parseColor("#40000000")) {
 
     var systemUiVisibility = 0
@@ -66,15 +66,11 @@ fun Activity.transparentStatusAndNavigation(systemUiScrim: Int = Color.parseColo
 
     systemUiVisibility = systemUiVisibility or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 
-    window.decorView.systemUiVisibility = systemUiVisibility
-
     winParams.flags = winParams.flags or WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+    winParams.flags = winParams.flags and  (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS).inv()
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        winParams.flags = winParams.flags and  (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS).inv()
-        window.statusBarColor = statusBarColor
-    }
-
+    window.decorView.systemUiVisibility = systemUiVisibility
+    window.statusBarColor = statusBarColor
     window.attributes = winParams
 
 }
